@@ -1,0 +1,81 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8"/>
+</head>
+<body>
+
+	<div th:fragment="contenido">
+
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-alta">
+			Registro
+		</button>
+		
+		 
+
+
+		<table>
+			<tr>
+				<th>Id</th>
+				<th>Nombre</th>
+				<th>Direccion</th>
+				<th>Email</th>
+			</tr>
+			<tr th:each="parking : ${parkings}">
+				<td th:text="${parking.id}">Id</td>
+				<td th:text="${parking.nombre}">Nombre</td>
+				<td th:text="${parking.direccion}">Direccion</td>
+				<td th:text="${parking.email}">Email</td>
+			</tr>
+		</table>
+	Mensaje:
+	<div th:text="#{typeMismatch}"></div>
+	<script th:fragment="javascript" th:inline="javascript">
+	
+	$('.enviar-form').click(function () {
+		var currentForm = $(this).closest("form");
+		function handleResponse(datos) {
+			
+			// Si el resultado fue exito, recargamos la página
+			if (datos.resultado == 'EXITO') {
+			//	document.location = /*[[@{/}]]*/ '';
+			currentForm[0].reset()
+			currentForm.find('.alert-success').show()
+			}
+			// Si fue fracaso, mostramos los mensajes de error.
+			else {
+				datos.errores.forEach(function (error) {
+					console.log(error);
+					var field = error.field;
+					if(error.code  == 'FieldMatch'){
+						field = error.arguments[error.arguments.length -1];
+					}
+					currentForm.find('#fg-' + field)
+						.addClass('has-error') // Añadimos la clase has-error
+						.find('.help-block') // Añadirmos al span help-block el mensaje
+						.text(error.defaultMessage);
+					
+				});
+			}
+		}	
+		
+		$('.alert').hide()
+		var formData = currentForm.serialize();
+		currentForm.find("div[id^=fg-]").removeClass('has-error');
+		currentForm.find(".help-block").text('');
+		 $.ajax(currentForm.attr('action')
+					, {
+						data: formData, // Cadena con los datos introducidos
+						method: 'POST', // Método esperado en el servidor
+						datatType: 'json', // Formato de recepción de los datos
+						success: handleResponse // Función que será llamada cuando se complete la llamada al servidor
+					});
+	});
+ 
+	</script>	
+	</div>
+	
+	
+	
+</body>
+</html>

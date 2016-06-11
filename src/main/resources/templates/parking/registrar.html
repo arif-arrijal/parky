@@ -1,0 +1,85 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div th:fragment="contenido">
+		<div class="modal fade" tabindex="-1" role="dialog" id="modal-registrar">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h1 class="modal-title">Registro Nuevo Parking</h1>
+					</div>
+					<div class="modal-body">
+						<form method="post" th:object="${parking}" th:action="@{/parkings/alta}" class="form-horizontal">
+				
+							<div id="fg-nombre" class="form-group">
+								<label for="nombre" class="col-sm-2 control-label">Nombre</label>
+								<div class="col-sm-10">
+									<input th:field="*{nombre}" type="text" class="form-control" placeholder="Nombre"/>
+									<span class="help-block"></span>
+								</div>
+							</div>
+							
+							<div id="fg-direccion" class="form-group">
+								<label for="direccion" class="col-sm-2 control-label">Dirección</label>
+								<div class="col-sm-10">
+									<input th:field="*{direccion}" type="text" class="form-control" placeholder="Direccion"/>
+									<span class="help-block"></span>
+								</div>
+							</div>
+
+							<div id="fg-email" class="form-group">
+								<label for="email" class="col-sm-2 control-label">Email</label>
+								<div class="col-sm-10">
+									<input th:field="*{email}" type="text" class="form-control" placeholder="Email" id="reg_email"/>
+									<span class="help-block"></span>
+								</div>
+							</div>
+													
+				
+							<div id="fg-telefono" class="form-group">
+								<label for="telefono" class="col-sm-2 control-label">Telefono</label>
+								<div class="col-sm-10">
+									<input th:field="*{telefono}" type="text" class="form-control" placeholder="Telefono" id="reg_telefono"/>
+									<span class="help-block"></span>
+								</div>
+							</div>
+							
+							<div id="fg-tarifa" class="form-group">
+								<label for="tarifa" class="col-sm-2 control-label">Tarifa</label>
+								<div class="col-sm-10">
+									<input th:field="*{tarifa}" type="text" class="form-control" placeholder="Tarifa centimos por minuto" id="reg_tarifa"/>
+									<span class="help-block"></span>
+								</div>
+							</div>	
+							
+							<div id="fg-claveapi" class="form-group">
+								<label for="API_clave" class="col-sm-2 control-label">Clave API</label>
+								<div class="col-sm-10">
+									<input th:field="*{claveAPI}" type="text" class="form-control" placeholder="claveAPI" id="reg_apikey"/>
+									<span class="help-block"></span>
+								</div>
+							</div>														
+						
+					
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-primary enviar-form">Registro de Nuevo Usuario</button>
+					</div>
+					</form>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
+		 	
+		
+	</div>
+</body>
+</html>
