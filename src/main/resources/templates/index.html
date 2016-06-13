@@ -1,5 +1,7 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+>
 <head>
 	<meta charset="utf-8"/>
 </head>
@@ -12,6 +14,9 @@
 		</button>
 		
 		 
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+  This content is only shown to users.
+</div>
 
 
 		<table>
@@ -47,9 +52,10 @@
 				datos.errores.forEach(function (error) {
 					console.log(error);
 					var field = error.field;
-					if(error.code  == 'FieldMatch'){
+					if(error.code  == 'FieldMatch'|| error.code  == 'alreadyRegistered'){
 						field = error.arguments[error.arguments.length -1];
 					}
+					
 					currentForm.find('#fg-' + field)
 						.addClass('has-error') // Añadimos la clase has-error
 						.find('.help-block') // Añadirmos al span help-block el mensaje

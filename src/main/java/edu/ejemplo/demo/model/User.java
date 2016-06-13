@@ -40,6 +40,8 @@ public class User {
 	@NotBlank
 	private String password;
 	
+	private String role;
+	
 	private String emailCode; //the code to be sent to the user to validate the address
 
 	private Integer emailVerificado; //will be false until email is verified from the activation code /link
@@ -100,6 +102,14 @@ public class User {
 
 	public void setEmailCode(String emailCode) {
 		this.emailCode = emailCode;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 	
 	

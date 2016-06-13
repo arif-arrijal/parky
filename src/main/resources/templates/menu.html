@@ -25,12 +25,16 @@
 					<ul class="nav navbar-nav">
 						<li><a th:href="@{/}">Inicio</a></li>
 						<li><a th:href="@{/parkings/alta}">Alta</a></li>
-						<li><a data-toggle="modal" data-target="#modal-registrar" href="#">Registrarse1</a></li>
-						<li><a data-toggle="modal" data-target="#modal-userregister" href="#">UserRegister</a></li>
-						<li><a data-toggle="modal" data-target="#modal-login" href="#">User Login</a></li>
-						<li><a data-toggle="modal" data-target="#modal-carregister" href="#">Register Car</a></li>
-						<li><a data-toggle="modal" data-target="#modal-tarjetaregister" href="#">Register Tarjeta</a></li>
-						
+						<li sec:authorize="hasRole('ROLE_USER')"><a data-toggle="modal" data-target="#modal-registrar" href="#">Registrarse1</a></li>
+						<li ><a sec:authorise="hasRole('ROLE_USER')" data-toggle="modal" data-target="#modal-userregister" href="#">UserRegister</a></li>
+						<li sec:authorize="!isAuthenticated()"><a data-toggle="modal" data-target="#modal-login" href="#">User Login</a></li>
+						<li sec:authorize="hasRole('ROLE_USER')"><a data-toggle="modal" data-target="#modal-carregister" href="#">Register Car</a></li>
+						<li sec:authorize="hasRole('ROLE_USER')"><a data-toggle="modal" data-target="#modal-tarjetaregister" href="#">Register Tarjeta</a></li>
+						<li th:if="${logInActivated == 0}">
+						<form action="/user/activate" method="post"><input type="text" name="code" /><button type="button" class="btn btn-primary enviar-form">Avtivate</button>
+						<span class="help-block"></span>
+						</form>							
+						</li>				
 					</ul>
 				</div>
 
