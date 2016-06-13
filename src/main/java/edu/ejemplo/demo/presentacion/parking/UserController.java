@@ -14,44 +14,45 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.ejemplo.demo.excepciones.NoEncontradoException;
+import edu.ejemplo.demo.excepciones.UsuarioYaExisteException;
 import edu.ejemplo.demo.model.Parking;
 import edu.ejemplo.demo.model.User;
 import edu.ejemplo.demo.presentacion.RespuestaValidacion;
 import edu.ejemplo.demo.repositorios.ParkingRepository;
 import edu.ejemplo.demo.repositorios.UserRepository;
+import edu.ejemplo.negocio.UsuariosService;
 
 @Controller
 public class UserController {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UsuariosService usuariosService;
  
 
 	@RequestMapping(method = RequestMethod.POST, path="/user/register")
 	@ResponseBody
 	public RespuestaValidacion alta(@Valid User user, BindingResult br, Model model, HttpServletRequest request) {
-		if(!br.hasErrors() && userRepository.getUserByEmail(user.getEmail())!= null){
-			//emailAlreadyRegistered
-			br.addError(new ObjectError("user", new String[]{"alreadyRegistered"}, new String[]{"email"}, "Email Already Exists."));
-		}
-		String loginUrl = request.getRemoteAddr()+ "/" ;
-		Random r = new Random();
-		String code = (r.nextInt(9999-1000) + 1000)+"";
+		
 		if (!br.hasErrors()) {
-			user.setEmailCode(code);
-			user.setEmailVerificado(0);
-			userRepository.save(user);
-			sendConfirmationEmail(user.getNombre(), user.getEmail(), user.getPassword(), code, loginUrl);
+			try {
+				usuariosService.registrar(user, request.getRemoteAddr());
+			} catch (UsuarioYaExisteException e) {
+				br.addError(new FieldError("user", "email", "alreadyRegistered"));
+			}
 		}
 		
 		return new RespuestaValidacion(br);
 	}
+	
 /*	@RequestMapping("/admin")
 	public String adminPage(){
 		return "layout";
@@ -69,47 +70,19 @@ public class UserController {
 
     }
 	
-	@RequestMapping(value="/user/activate",method = {RequestMethod.POST})
+	@RequestMapping(value="/user/{id}/activate/{code}",method = {RequestMethod.POST})
 	@ResponseBody
-    public String activateUser(@RequestParam(value = "code", required = true) String code) {
-		
-		User user = userRepository.getUserByEmailCode(code);
-		if(user == null){
-			return "{\"errors\":[{\"field\":\"code\", \"defaultMessage\":\"Invalid code\"}]}";
+    public RespuestaValidacion activateUser(@PathVariable("id") Long idUsuario, @PathVariable("code") String code) {
+
+		try {
+			usuariosService.activar(idUsuario, code);
+			return new RespuestaValidacion(true);
 		}
-		user.setEmailconfirm(user.getEmail());
-		user.setEmailVerificado(1);
-		userRepository.save(user);
-		return "{\"resultado\":\"EXITO\"}";
+		catch (NoEncontradoException e) {
+			return new RespuestaValidacion(false);
+		}
 		
 		
     }
-	 @Autowired
-	    private JavaMailSender mailSender;
-	
-	private void sendConfirmationEmail(String name, String email, String password, String code, String loginUrl){
-//		 SimpleMailMessage message = new SimpleMailMessage();
-		 
-		 try {
-			 MimeMessage message = mailSender.createMimeMessage();
-			 message.setSubject("Account Confirmation Email.");
-	        MimeMessageHelper helper;
-            helper = new MimeMessageHelper(message, true);
-            helper.setFrom("parkyoviedo@gmail.com");
-            helper.setTo(email);
-				helper.setText("Hello!! <br /> You have been successfully registered."
-			    		+ "<br /> Please click <a href='"+loginUrl+"'>here</a> to login with following credentials."
-			    		+ "<br /> Email: "+email
-			    		+ "<br /> Password: "+password
-			    		+ "<br /> Use authentication code : "+code+" to activate your account.", true);
-				mailSender.send(message);
-		} catch (MessagingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	        
 
-	        
-
-	}
 }

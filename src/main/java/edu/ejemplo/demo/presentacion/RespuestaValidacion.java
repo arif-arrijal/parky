@@ -1,10 +1,8 @@
 package edu.ejemplo.demo.presentacion;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
 public class RespuestaValidacion {
@@ -24,6 +22,10 @@ public class RespuestaValidacion {
 		if(objectErrors == null || objectErrors.isEmpty()){
 			return;
 		}
+	}
+	
+	public RespuestaValidacion(boolean correcto) {
+		this.resultado = correcto ? FRACASO : EXITO;
 	}
 	
 	public List<ObjectError> getErrores() {

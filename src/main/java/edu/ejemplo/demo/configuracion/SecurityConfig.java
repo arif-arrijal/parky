@@ -1,33 +1,28 @@
 package edu.ejemplo.demo.configuracion;
 
-import javax.sql.DataSource;
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.authentication.encoding.PlaintextPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	DataSource dataSource;
+	private UserDetailsService userDetailsService;
 	
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-		
-	  auth.jdbcAuthentication().dataSource(dataSource)
-	  
-		.usersByUsernameQuery(
-			"select email,password , 1 from user where email=?")
-		.authoritiesByUsernameQuery(
-			"select email, role from user u where u.email=?")
-			;
+	  auth
+	  	.userDetailsService(userDetailsService)
+	  	.passwordEncoder(new PlaintextPasswordEncoder());
 	}	
 	
 	@Override
@@ -53,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 		 .csrf().disable();	  
 	}
-	
+	/*
 	@Bean(name = "dataSource")
 	public DriverManagerDataSource dataSource() {
 	    DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
@@ -63,6 +58,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    driverManagerDataSource.setPassword("123123");
 	    return driverManagerDataSource;
 	}
-
+	*/
     // ...
 }
