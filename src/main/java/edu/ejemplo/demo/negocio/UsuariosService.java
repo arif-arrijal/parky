@@ -1,12 +1,14 @@
-package edu.ejemplo.negocio;
+package edu.ejemplo.demo.negocio;
 
 import edu.ejemplo.demo.excepciones.NoEncontradoException;
-import edu.ejemplo.demo.excepciones.UsuarioYaExisteException;
+import edu.ejemplo.demo.excepciones.YaExisteException;
 import edu.ejemplo.demo.model.User;
 
 public interface UsuariosService {
-
-	void registrar(User user, String urlBase) throws UsuarioYaExisteException;
+	
+	Iterable<User> getUsuarios();
+	
+	void registrar(User user, String urlBase) throws YaExisteException;
 
 	void activar(Long idUsuario, String code) throws NoEncontradoException;
 

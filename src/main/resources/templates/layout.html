@@ -9,6 +9,7 @@
 	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 	<script type="text/javascript" th:src="@{https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/parky-angular.js}"></script>
+	<script type="text/javascript" th:src="@{/js/ajax-form.js}"></script>
 
 </head>
 <body ng-app="parky">
@@ -19,7 +20,7 @@
 
 		<h1>Parkings</h1>
 		
-		<div th:text="${#vars['mensaje']}">
+		<div th:if="${param.mensaje != null}" th:text="${param.mensaje[0]}" class="alert alert-success" role="alert">
 		</div>
 		
 		<div th:replace="${vista} :: contenido">

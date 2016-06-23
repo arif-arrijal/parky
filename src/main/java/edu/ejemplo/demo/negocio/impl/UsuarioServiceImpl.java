@@ -13,11 +13,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import edu.ejemplo.demo.excepciones.NoEncontradoException;
-import edu.ejemplo.demo.excepciones.UsuarioYaExisteException;
+import edu.ejemplo.demo.excepciones.YaExisteException;
 import edu.ejemplo.demo.model.GeneradorClaves;
 import edu.ejemplo.demo.model.User;
+import edu.ejemplo.demo.negocio.UsuariosService;
 import edu.ejemplo.demo.repositorios.UserRepository;
-import edu.ejemplo.negocio.UsuariosService;
 
 @Service
 public class UsuarioServiceImpl implements UsuariosService, UserDetailsService {
@@ -31,16 +31,20 @@ public class UsuarioServiceImpl implements UsuariosService, UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		return userRepository.getUserByEmail(email);
+		UserDetails ud = userRepository.getUserByEmail(email);
+		if (ud == null) {
+			throw new UsernameNotFoundException("Usuario no encontrado");
+		} 
+		return ud;
 	}
 	
 	@Override
 	@Transactional
 	// Para que el método se ejecute completo (si hay algun error se hace rollback de todos los cambios en BD).
-	public void registrar(User user, String urlBase) throws UsuarioYaExisteException {
+	public void registrar(User user, String urlBase) throws YaExisteException {
 		
 		if(userRepository.getUserByEmail(user.getEmail())!= null){
-			throw new UsuarioYaExisteException();
+			throw new YaExisteException();
 		}
 		
 		//generamos la clave de activacion usando la funcion que tenemos de la clase generadora de claves
@@ -67,7 +71,7 @@ public class UsuarioServiceImpl implements UsuariosService, UserDetailsService {
 
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
-			message.setSubject("Account Confirmation Email.");
+			message.setSubject("Email de confirmacion de cuenta.");
 			
 			String loginUrl = urlBase + "/" + user.getEmailCode();
 
@@ -75,11 +79,11 @@ public class UsuarioServiceImpl implements UsuariosService, UserDetailsService {
 			helper = new MimeMessageHelper(message, true);
 			helper.setFrom("parkyoviedo@gmail.com");
 			helper.setTo(user.getEmail());
-			helper.setText("Hello!! <br /> You have been successfully registered."
-			    		+ "<br /> Please click <a href='"+loginUrl+"'>here</a> to login with following credentials."
+			helper.setText("Hola! <br /> Te has regisrado con éxito."
+			    		+ "<br /> Por favor haz click <a href='"+loginUrl+"'>aqui</a> to login with following credentials."
 			    		+ "<br /> Email: "+user.getEmail()
 			    		+ "<br /> Password: "+user.getPassword()
-			    		+ "<br /> Use authentication code : "+user.getEmailCode()+" to activate your account.", true);
+			    		+ "<br /> Codigo de autenficacion : "+user.getEmailCode()+" para activar tu cuenta.", true);
 				mailSender.send(message);
 		} catch (MessagingException e1) {
 			//en principio mostramos solo una error generico de tiempo de ejcucion. luego lo modificaremos
@@ -89,6 +93,11 @@ public class UsuarioServiceImpl implements UsuariosService, UserDetailsService {
 
 	        
 
+	}
+
+	@Override
+	public Iterable<User> getUsuarios() {
+		return userRepository.findAll();
 	}
 	
 }

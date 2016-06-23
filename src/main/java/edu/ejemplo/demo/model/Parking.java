@@ -1,7 +1,5 @@
 package edu.ejemplo.demo.model;
 
-import java.util.Random;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +11,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import edu.ejemplo.demo.validators.FieldMatch;
 
 @Entity
 @Table(name = "PARKING")
@@ -27,6 +24,46 @@ public class Parking {
 	private String nombre;
 	@NotBlank
 	private String direccion;
+	@NotBlank 
+	private String ciudad;
+	@NotBlank
+	private String cp;
+	@NotBlank
+	private String provincia;
+	@NotBlank
+	private String cif;
+	public String getCiudad() {
+		return ciudad;
+	}
+
+	public void setCiudad(String ciudad) {
+		this.ciudad = ciudad;
+	}
+
+	public String getCp() {
+		return cp;
+	}
+
+	public void setCp(String cp) {
+		this.cp = cp;
+	}
+
+	public String getProvincia() {
+		return provincia;
+	}
+
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
+	}
+
+	public String getCif() {
+		return cif;
+	}
+
+	public void setCif(String cif) {
+		this.cif = cif;
+	}
+
 	@NotBlank
 	@Email
 	private String email;
@@ -35,12 +72,13 @@ public class Parking {
 	
 	//long best option?
 	@NotNull
-	private float tarifa; //tarifa por minuto de estancia
+	private float tarifa; //tarifa por minuto de estancia -> fee
 	@NotBlank
 	private String telefono; 
 	
 	//se deberia de autogenerar desde alguna funcion si el usuario decide cambiarla
 	private String claveAPI; //clave para autorizar el acceso del lector de OCR para cada estancia
+	//there will be an api key, so we can send petitions for cars trying to access a parking
 	
 	
 	public Parking() {

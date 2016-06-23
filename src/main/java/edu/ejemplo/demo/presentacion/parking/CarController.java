@@ -62,7 +62,7 @@ public class CarController {
 			userRepository.save(car);
 		}
 
-		return new RespuestaValidacion(br);
+		return new RespuestaValidacion(br,"MENSAJE EXITO ALTA COCHE");
 	}
 
 	private static final Logger logger = LoggerFactory

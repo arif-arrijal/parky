@@ -22,17 +22,6 @@ public class AltaParkingController {
 	@Autowired
 	private ParkingRepository parkingRepository;
 
-	/*
-	@RequestMapping(method = RequestMethod.GET)
-	public String alta(Model model) {
-		
-		model.addAttribute("parking", new Parking());
-		model.addAttribute("vista", "alta");
-		
-		return "layout";
-	}
-	*/
-
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
 	public RespuestaValidacion alta(@Valid Parking parking, BindingResult br, Model model
@@ -43,6 +32,6 @@ public class AltaParkingController {
 			redirectAttributes.addFlashAttribute("mensaje", "El parking se registro correctamente");
 		}
 		
-		return new RespuestaValidacion(br);
+		return new RespuestaValidacion(br,"MENSAJE EXITO ALTA PARKING");
 	}
 }

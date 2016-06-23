@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	  http.authorizeRequests()
 	  	.antMatchers("/login","**/login","/logout").permitAll() // #4
-	  	
+	  	//forget about this, it wasnt working properly, but could be fixed?
 		.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 		.antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
 		.antMatchers("/parking/**").access("hasRole('ROLE_PARKING_OWNER','ADMIN')")

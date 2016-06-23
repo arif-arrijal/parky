@@ -4,7 +4,7 @@
 </head>
 <body>
 	<div th:fragment="contenido">
-		<div class="modal fade" tabindex="-1" role="dialog" id="modal-registrar">
+		<div class="modal fade" tabindex="-1" role="dialog" id="modal-parkingregistrar">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -14,7 +14,7 @@
 						<h1 class="modal-title">Registro Nuevo Parking</h1>
 					</div>
 					<div class="modal-body">
-						<form method="post" th:object="${parking}" th:action="@{/parkings/alta}" class="form-horizontal">
+						<form method="post" th:object="${registrarParkingForm}" th:action="@{/parking/alta}" class="form-horizontal">
 				
 							<div id="fg-nombre" class="form-group">
 								<label for="nombre" class="col-sm-2 control-label">Nombre</label>

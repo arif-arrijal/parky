@@ -15,14 +15,22 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 		
 		 
 <div sec:authorize="hasRole('ROLE_ADMIN')">
-  This content is only shown to users.
+Este contenido solo se muestra a usuarios Admin
+</div>
+
+<div sec:authorize="hasRole('ROLE_USER')">
+Este contenido solo se muestra a usuarios Conductor
+</div>
+
+<div sec:authorize="hasRole('ROLE_PARKING')">
+Este contenido solo se muestra a usuarios
 </div>
 
 
 		<table>
 			<tr>
 				<th>Id</th>
-				<th>Nombre</th>
+				<th>Nombre Parking</th>
 				<th>Direccion</th>
 				<th>Email</th>
 			</tr>
@@ -30,55 +38,44 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 				<td th:text="${parking.id}">Id</td>
 				<td th:text="${parking.nombre}">Nombre</td>
 				<td th:text="${parking.direccion}">Direccion</td>
+				<td th:text="${parking.telefono}">Telefono</td>
 				<td th:text="${parking.email}">Email</td>
 			</tr>
 		</table>
+		
+		<table>
+			<tr>
+				<th>Id</th>
+				<th>Email Conductor</th>
+				<th>Password</th>
+				<th>Rol</th>
+				<th>MailVerificado</th>
+				<th>EmailCode</th>				
+			</tr>
+			<tr th:each="user : ${usuarios}">
+				<td th:text="${user.id}">Id</td>
+				<td th:text="${user.email}">Email</td>
+				<td th:text="${user.password}">Password</td>
+				<td th:text="${user.rol}">Rol</td>
+				<td th:text="${user.emailVerificado}">MailVerificado</td>
+			<!--  	<td>
+					<span th:if="${user.emailVerificado}">Si</span>
+					<span th:if="${!user.emailVerificado}">No</span>
+				</td> -->
+				<td th:text="${user.emailCode}">EmailCode</td>
+				  
+				
+			</tr>
+			<tr th:each="conductor : ${conductores}">
+				<td th:text="${user.id}">Id</td>
+				<td th:text="${user.email}">Email</td>
+
+				
+			</tr>			
+		</table>		
 	Mensaje:
 	<div th:text="#{typeMismatch}"></div>
-	<script th:fragment="javascript" th:inline="javascript">
-	
-	$('.enviar-form').click(function () {
-		var currentForm = $(this).closest("form");
-		function handleResponse(datos) {
-			
-			// Si el resultado fue exito, recargamos la página
-			if (datos.resultado == 'EXITO') {
-			//	document.location = /*[[@{/}]]*/ '';
-			currentForm[0].reset()
-			currentForm.find('.alert-success').show()
-			}
-			// Si fue fracaso, mostramos los mensajes de error.
-			else {
-				datos.errores.forEach(function (error) {
-					console.log(error);
-					var field = error.field;
-					if(error.code  == 'FieldMatch'|| error.code  == 'alreadyRegistered'){
-						field = error.arguments[error.arguments.length -1];
-					}
-					
-					currentForm.find('#fg-' + field)
-						.addClass('has-error') // Añadimos la clase has-error
-						.find('.help-block') // Añadirmos al span help-block el mensaje
-						.text(error.defaultMessage);
-					
-				});
-			}
-		}	
-		
-		$('.alert').hide()
-		var formData = currentForm.serialize();
-		currentForm.find("div[id^=fg-]").removeClass('has-error');
-		currentForm.find(".help-block").text('');
-		 $.ajax(currentForm.attr('action')
-					, {
-						data: formData, // Cadena con los datos introducidos
-						method: 'POST', // Método esperado en el servidor
-						datatType: 'json', // Formato de recepción de los datos
-						success: handleResponse // Función que será llamada cuando se complete la llamada al servidor
-					});
-	});
- 
-	</script>	
+
 	</div>
 	
 	

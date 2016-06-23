@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class GeneradorClaves {
 	
-	private static final String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789";
+	private static final String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	private static final Random RANDOM = new Random();
 
 	public String generarApiKey(int tamanio) {

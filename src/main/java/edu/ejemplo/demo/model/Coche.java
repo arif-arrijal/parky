@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -21,10 +22,12 @@ public class Coche {
 	@Id
 	@GeneratedValue
 	private long idCoche;
+
+	@ManyToOne //muchos coches pueden estar asociados a UN conductor
+	private Conductor conductor;
 	
-	
-	private long idUsuario;
-	private long idTarjeta;
+	@ManyToOne //muchos coches pueden estar asociados a UNA tarjeta
+	private TarjetaCredito tarjetaCredito;
 	
 	@NotBlank
 	private String matricula;
@@ -35,8 +38,8 @@ public class Coche {
 	@NotBlank
 	private String nombreCoche; //car name to remember by the user, ie. Blue Audi, Green Ford...
 	
-	private Integer activo=0; //this is whether the car is active or not
-	private Integer matriculaValidada=0; //this will be true when the fotoPermiso has been validated by app admin aftere he sees that it matches the car
+	private boolean activo=false; //this is whether the car is active or not
+	private boolean matriculaValidada=false; //this will be true when the fotoPermiso has been validated by app admin aftere he sees that it matches the car
 	
 	
 
@@ -53,16 +56,16 @@ public class Coche {
 	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
-	public Integer isActivo() {
+	public boolean isActivo() {
 		return activo;
 	}
-	public void setActivo(Integer activo) {
+	public void setActivo(boolean activo) {
 		this.activo = activo;
 	}
-	public Integer isMatriculaValidada() {
+	public boolean isMatriculaValidada() {
 		return matriculaValidada;
 	}
-	public void setMatriculaValidada(Integer matriculaValidada) {
+	public void setMatriculaValidada(boolean matriculaValidada) {
 		this.matriculaValidada = matriculaValidada;
 	}
 	public String getNombreCoche() {
@@ -71,25 +74,23 @@ public class Coche {
 	public void setNombreCoche(String nombreCoche) {
 		this.nombreCoche = nombreCoche;
 	}
-	public long getIdTarjeta() {
-		return idTarjeta;
-	}
-	public void setIdTarjeta(long idTarjeta) {
-		this.idTarjeta = idTarjeta;
-	}
-	public long getIdUsuario() {
-		return idUsuario;
-	}
-	public void setIdUsuario(long idUsuario) {
-		this.idUsuario = idUsuario;
-	}
 	public long getIdCoche() {
 		return idCoche;
 	}
 	public void setIdCoche(long idCoche) {
 		this.idCoche = idCoche;
 	}
-	
-	
+	public Conductor getConductor() {
+		return conductor;
+	}
+	public void setConductor(Conductor conductor) {
+		this.conductor = conductor;
+	}
+	public TarjetaCredito getTarjetaCredito() {
+		return tarjetaCredito;
+	}
+	public void setTarjetaCredito(TarjetaCredito tarjetaCredito) {
+		this.tarjetaCredito = tarjetaCredito;
+	}
 
 }

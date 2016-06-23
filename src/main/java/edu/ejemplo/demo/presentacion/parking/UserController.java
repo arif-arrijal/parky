@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.ejemplo.demo.excepciones.NoEncontradoException;
-import edu.ejemplo.demo.excepciones.UsuarioYaExisteException;
+import edu.ejemplo.demo.excepciones.YaExisteException;
 import edu.ejemplo.demo.model.Parking;
 import edu.ejemplo.demo.model.User;
+import edu.ejemplo.demo.negocio.UsuariosService;
 import edu.ejemplo.demo.presentacion.RespuestaValidacion;
 import edu.ejemplo.demo.repositorios.ParkingRepository;
 import edu.ejemplo.demo.repositorios.UserRepository;
-import edu.ejemplo.negocio.UsuariosService;
 
 @Controller
 public class UserController {
@@ -45,12 +45,12 @@ public class UserController {
 		if (!br.hasErrors()) {
 			try {
 				usuariosService.registrar(user, request.getRemoteAddr());
-			} catch (UsuarioYaExisteException e) {
+			} catch (YaExisteException e) {
 				br.addError(new FieldError("user", "email", "alreadyRegistered"));
 			}
 		}
 		
-		return new RespuestaValidacion(br);
+		return new RespuestaValidacion(br, "MENSAJE EXITO USUARIO");
 	}
 	
 /*	@RequestMapping("/admin")

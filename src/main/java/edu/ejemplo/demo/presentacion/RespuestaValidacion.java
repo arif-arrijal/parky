@@ -11,17 +11,15 @@ public class RespuestaValidacion {
 	private static final String FRACASO = "FRACASO";
 	
 	private String resultado;
+	private String mensajeExito;
 	private List<ObjectError> errores;
 	
-	public RespuestaValidacion(BindingResult br) {
+	public RespuestaValidacion(BindingResult br, String mensajeExito) {
 		// Si el bindingResult continene errores, resultado será FRACASO, sino EXITO
 		this.resultado = br.hasErrors() ? FRACASO : EXITO;
 		// Añadimos los objetos fieldError del bindingResult
 		this.errores = br.getAllErrors();
-		List<ObjectError> objectErrors = br.getAllErrors();
-		if(objectErrors == null || objectErrors.isEmpty()){
-			return;
-		}
+		this.mensajeExito = mensajeExito;
 	}
 	
 	public RespuestaValidacion(boolean correcto) {
@@ -34,5 +32,9 @@ public class RespuestaValidacion {
 	
 	public String getResultado() {
 		return resultado;
+	}
+	
+	public String getMensajeExito() {
+		return mensajeExito;
 	}
 }

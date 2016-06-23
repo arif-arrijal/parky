@@ -64,6 +64,6 @@ public class TarjetaController {
 			userRepository.save(tarjeta);
 		}
 
-		return new RespuestaValidacion(br);
+		return new RespuestaValidacion(br, "MENSAJE EXITO TARJETA CREDITO");
 	}
  }

@@ -1,0 +1,77 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+<body>
+
+	<div th:fragment="contenido">
+		<div class="modal fade" tabindex="-1" role="dialog" id="modal-conductorregistrar">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h1 class="modal-title">Registrar Usuario</h1>
+					</div>
+					<div class="modal-body">
+						<form method="post" th:object="${registrarConductorForm}" th:action="@{/conductores}" th:attr="data-url-exito=@{/}" class="form-horizontal" id="reg_form">
+				
+							<div id="fg-nombre" class="form-group">
+								<label for="nombre" class="col-sm-2 control-label">Nombre</label>
+								<div class="col-sm-10">
+									<input th:field="*{nombre}" type="text" class="form-control" placeholder="Nombre"/>
+									<span class="help-block"></span>
+								</div>
+							</div>
+							
+							<div id="fg-email" class="form-group">
+								<label for="email" class="col-sm-2 control-label">Email</label>
+								<div class="col-sm-10">
+									<input th:field="*{email}" type="text" class="form-control" placeholder="Email" id="email"/>
+									<span class="help-block"></span>
+								</div>
+							</div>
+							
+							<div id="fg-emailConfirmacion" class="form-group">
+								<label for="emailConfirmacion" class="col-sm-2 control-label">Confirmar Email</label>
+								<div class="col-sm-10">
+									<input th:field="*{emailConfirmacion}" type="text" class="form-control" placeholder="Confirm Email" id="emailConfirmacion"/>
+									<span class="help-block" id="emailMatchText"></span>
+								</div>
+							</div>
+				
+							<div id="fg-password" class="form-group">
+								<label for="password" class="col-sm-2 control-label">Password</label>
+								<div class="col-sm-10">
+									<input th:field="*{password}" type="password" class="form-control" placeholder="Password"/>
+									<span class="help-block"></span>
+								</div>
+							</div>
+						
+					<div class="alert alert-success" style="display:none">
+					  <strong>Registrado con Exito</strong> Por favor revisa tu bandeja de entrada con el email de confirmacion.
+					</div>
+					
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-primary enviar-form">Registrarse</button>
+					</div>
+					</form>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
+		
+	<script th:inline="javascript">
+			
+			convertirEnAjaxForm('modal-conductorregistrar');
+ 
+	</script>		
+	</div>	
+</body>
+</html>

@@ -22,6 +22,8 @@ public class WebConfiguracion {
 	}
 	*/
 	
+	//this is for sending mail, it was working, but i did something wrong and now it isnt
+	
 	 @Bean
 	    public JavaMailSender javaMailService() {
 	        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
