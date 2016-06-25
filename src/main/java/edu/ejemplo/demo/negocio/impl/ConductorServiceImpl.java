@@ -46,7 +46,7 @@ public class ConductorServiceImpl implements ConductorService {
 
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
-			message.setSubject("Email de confirmacion de cuenta.");
+			message.setSubject("Email de confirmacion de tu cuenta en Parky.es.");
 			
 			String loginUrl = urlBase + "/" + user.getEmailCode();
 
@@ -54,11 +54,9 @@ public class ConductorServiceImpl implements ConductorService {
 			helper = new MimeMessageHelper(message, true);
 			helper.setFrom("parkyoviedo@gmail.com");
 			helper.setTo(user.getEmail());
-			helper.setText("Hola! <br /> Te has regisrado con éxito."
-			    		+ "<br /> Por favor haz click <a href='"+loginUrl+"'>aqui</a> to login with following credentials."
-			    		+ "<br /> Email: "+user.getEmail()
-			    		+ "<br /> Password: "+user.getPassword()
-			    		+ "<br /> Codigo de autenficacion : "+user.getEmailCode()+" para activar tu cuenta.", true);
+			helper.setText("Hola! <br /> Te has regisrado con exito en Parky!."
+			    		+ "<br /> Por favor haz click <a href='"+loginUrl+"'>aqui</a> para verificar tu cuenta de correo o introduce el siguiente codigo de activacion en la web al entrar."
+			    		+ "<br /> Codigo de verificacion : "+user.getEmailCode(), true);
 				mailSender.send(message);
 		} catch (MessagingException e1) {
 			//en principio mostramos solo una error generico de tiempo de ejcucion. luego lo modificaremos
