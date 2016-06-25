@@ -1,0 +1,14 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Set Password to Account</title>
+</head>
+<body>
+<p>Hola!</p>
+<p>Te has regisrado con exito en Parky!.</p>
+<p>Por favor haz click <a th:href='${verifyUrl}'>aqui</a> para verificar tu cuenta de correo o introduce el siguiente codigo de activacion en la web al entrar.</p>
+<p th:text="${'Codigo de verificacion : ' + verifyCode}"></p>
+</body>
+</html>

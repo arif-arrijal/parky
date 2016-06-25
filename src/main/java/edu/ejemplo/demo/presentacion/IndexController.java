@@ -2,6 +2,7 @@ package edu.ejemplo.demo.presentacion;
 
 import java.security.Principal;
 
+import edu.ejemplo.demo.negocio.ConductorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -9,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import edu.ejemplo.demo.model.Coche;
@@ -30,6 +32,8 @@ public class IndexController {
 	
 	@Autowired
 	private UsuariosService usuariosService;
+	@Autowired
+	private ConductorService conductorService;
 
 	@RequestMapping(value={"/","/admin"})
 	public String index(Model model, Principal principal) {
@@ -60,4 +64,13 @@ public class IndexController {
 		return "layout";
 	}
 
+	@RequestMapping(value="/verify/{email}/{verifyCode}")
+	public String index(Model model, @PathVariable("email") String email, @PathVariable("verifyCode") String verifyCode) {
+		if(conductorService.activate(email, verifyCode)){
+			model.addAttribute("successMsg", "Activated success");
+		}else{
+			model.addAttribute("errorMsg", "Activated failed");
+		}
+		return "conductor/activation";
+	}
 }
