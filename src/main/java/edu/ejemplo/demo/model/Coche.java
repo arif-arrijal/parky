@@ -1,19 +1,10 @@
 package edu.ejemplo.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-
-// hibernate validator es la librería encargada de validar los formularios (modelos)
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import edu.ejemplo.demo.validators.FieldMatch;
+import javax.persistence.*;
+
+// hibernate validator es la librería encargada de validar los formularios (modelos)
 
 @Entity
 @Table(name="COCHE")

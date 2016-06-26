@@ -28,7 +28,7 @@ public class RegistrarConductorController {
 		
 		if (!br.hasErrors()) {
 			try {
-				conductorService.registrar(form.getUser(), form.getConductor(), request.getRemoteAddr());
+				conductorService.registrar(form.getUser(), form.getConductor(), request);
 			} catch (YaExisteException e) {
 				br.addError(new FieldError("registrarConductorForm", "email", "EMail repetido"));
 			}
