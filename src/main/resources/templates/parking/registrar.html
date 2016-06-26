@@ -14,7 +14,7 @@
 						<h1 class="modal-title">Registro Nuevo Parking</h1>
 					</div>
 					<div class="modal-body">
-						<form method="post" th:object="${registrarParkingForm}" th:action="@{/parking/alta}" class="form-horizontal">
+						<form method="post" th:object="${registrarParkingForm}" th:action="@{/parkings}" class="form-horizontal">
 				
 							<div id="fg-nombre" class="form-group">
 								<label for="nombre" class="col-sm-2 control-label">Nombre</label>
@@ -31,6 +31,30 @@
 									<span class="help-block"></span>
 								</div>
 							</div>
+							<div id="fg-ciudad" class="form-group">
+								<label for="ciudad" class="col-sm-2 control-label">Ciudad</label>
+								<div class="col-sm-10">
+									<input th:field="*{ciudad}" type="text" class="form-control" placeholder="Ciudad"/>
+									<span class="help-block"></span>
+								</div>
+							</div>
+							
+							<div id="fg-cp" class="form-group">
+								<label for="cp" class="col-sm-2 control-label">CP</label>
+								<div class="col-sm-10">
+									<input th:field="*{codigoPostal}" type="text" class="form-control" placeholder="CP"/>
+									<span class="help-block"></span>
+								</div>
+							</div>	
+							
+							<div id="fg-provincia" class="form-group">
+								<label for="provincia" class="col-sm-2 control-label">Provincia</label>
+								<div class="col-sm-10">
+									<input th:field="*{provincia}" type="text" class="form-control" placeholder="Provincia"/>
+									<span class="help-block"></span>
+								</div>
+							</div>																			
+																			
 
 							<div id="fg-email" class="form-group">
 								<label for="email" class="col-sm-2 control-label">Email</label>
@@ -49,6 +73,14 @@
 								</div>
 							</div>
 							
+							<div id="fg-cif" class="form-group">
+								<label for="cif" class="col-sm-2 control-label">CIF</label>
+								<div class="col-sm-10">
+									<input th:field="*{cif}" type="text" class="form-control" placeholder="CIF" id="reg_cif"/>
+									<span class="help-block"></span>
+								</div>
+							</div>							
+							
 							<div id="fg-tarifa" class="form-group">
 								<label for="tarifa" class="col-sm-2 control-label">Tarifa</label>
 								<div class="col-sm-10">
@@ -63,12 +95,16 @@
 									<input th:field="*{claveAPI}" type="text" class="form-control" placeholder="claveAPI" id="reg_apikey"/>
 									<span class="help-block"></span>
 								</div>
-							</div>														
+							</div>	
+							
+					<div class="alert alert-success" style="display:none">
+					  <strong>Parking Registrado con Exito</strong>
+					</div>																				
 						
 					
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-						<button type="button" class="btn btn-primary enviar-form">Registro de Nuevo Usuario</button>
+						<button type="button" class="btn btn-primary enviar-form">Registro Nuevo Parking</button>
 					</div>
 					</form>
 					</div>
@@ -78,8 +114,10 @@
 			<!-- /.modal-dialog -->
 		</div>
 		<!-- /.modal -->
-		 	
 		
+	<script th:inline="javascript">			
+			convertirEnAjaxForm('modal-parkingregistrar'); 
+	</script>
 	</div>
 </body>
 </html>

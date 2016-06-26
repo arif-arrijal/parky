@@ -33,8 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  	//forget about this, it wasnt working properly, but could be fixed?
 		.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 		.antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
-		.antMatchers("/parking/**").access("hasRole('ROLE_PARKING_OWNER','ADMIN')")
-		.antMatchers("/guestor/**").access("hasRole('ROLE_GUESTOR','ADMIN')")
+	//	.antMatchers("/parking/**").access("hasRole('ROLE_PARKING','ADMIN')")
 		.and()
 		  .formLogin().loginPage("/login").failureUrl("/login?loginerror=true")
 		  .usernameParameter("email").passwordParameter("password")
@@ -48,16 +47,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 		 .csrf().disable();	  
 	}
-	/*
-	@Bean(name = "dataSource")
-	public DriverManagerDataSource dataSource() {
-	    DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-	    driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-	    driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/demo");
-	    driverManagerDataSource.setUsername("meetrack_user");
-	    driverManagerDataSource.setPassword("123123");
-	    return driverManagerDataSource;
-	}
-	*/
-    // ...
 }

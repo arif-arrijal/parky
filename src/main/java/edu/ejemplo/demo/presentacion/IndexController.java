@@ -56,6 +56,7 @@ public class IndexController {
 		//model.addAttribute("tarjeta", new TarjetaCredito());
 		model.addAttribute("vista", "index");
 		model.addAttribute("usuarios", usuarios);
+		model.addAttribute("parkings", parkings);
 		
 		return "layout";
 	}

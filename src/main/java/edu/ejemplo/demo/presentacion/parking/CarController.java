@@ -62,7 +62,7 @@ public class CarController {
 			userRepository.save(car);
 		}
 
-		return new RespuestaValidacion(br,"MENSAJE EXITO ALTA COCHE");
+		return new RespuestaValidacion(br,"Coche añadido con exito");
 	}
 
 	private static final Logger logger = LoggerFactory
@@ -104,8 +104,8 @@ public class CarController {
 				return "You failed to upload " + e.getMessage();
 			}
 		} else {
-			return "You failed to upload " 
-					+ " because the file was empty.";
+			return "Ha fallado la subida de la foto" 
+					+ " porque el archivo estaba vacio";
 		}
 	}
 	String randomString(final int length) {

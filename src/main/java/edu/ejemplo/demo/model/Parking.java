@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -22,12 +23,14 @@ public class Parking {
 	
 	@NotBlank
 	private String nombre;
+	@OneToOne
+	private User usuario;	
 	@NotBlank
 	private String direccion;
 	@NotBlank 
 	private String ciudad;
 	@NotBlank
-	private String cp;
+	private String codigoPostal;
 	@NotBlank
 	private String provincia;
 	@NotBlank
@@ -40,12 +43,12 @@ public class Parking {
 		this.ciudad = ciudad;
 	}
 
-	public String getCp() {
-		return cp;
+	public String getcodigoPostal() {
+		return codigoPostal;
 	}
 
-	public void setCp(String cp) {
-		this.cp = cp;
+	public void setcodigoPostal(String cp) {
+		this.codigoPostal = cp;
 	}
 
 	public String getProvincia() {
@@ -151,6 +154,14 @@ public class Parking {
 	
 	public String getClaveAPI(){
 		return claveAPI;
+	}
+
+	public void setUsuario(User user) {
+		this.usuario = user;
+	}
+	
+	public User getUsuario() {
+		return usuario;
 	}
 
 	@Override

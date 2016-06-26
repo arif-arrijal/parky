@@ -56,7 +56,7 @@ public class TarjetaController {
 	@Autowired
 	private TarjetaRepository userRepository;
 
-	@RequestMapping(method = RequestMethod.POST, path = "/tarjeta/register")
+	@RequestMapping(method = RequestMethod.POST, path = "/tarjeta/registrar")
 	@ResponseBody
 	public RespuestaValidacion alta(@Valid TarjetaCredito tarjeta, BindingResult br,
 			Model model) {
@@ -64,6 +64,6 @@ public class TarjetaController {
 			userRepository.save(tarjeta);
 		}
 
-		return new RespuestaValidacion(br, "MENSAJE EXITO TARJETA CREDITO");
+		return new RespuestaValidacion(br, "Tarjeta añadida con exito");
 	}
  }

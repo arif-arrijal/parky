@@ -71,7 +71,7 @@ public class UsuarioServiceImpl implements UsuariosService, UserDetailsService {
 
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
-			message.setSubject("Email de confirmacion de cuenta.");
+			message.setSubject("Confirma tu cuenta de correo en Parky.es");
 			
 			String loginUrl = urlBase + "/" + user.getEmailCode();
 
@@ -80,10 +80,9 @@ public class UsuarioServiceImpl implements UsuariosService, UserDetailsService {
 			helper.setFrom("parkyoviedo@gmail.com");
 			helper.setTo(user.getEmail());
 			helper.setText("Hola! <br /> Te has regisrado con éxito."
-			    		+ "<br /> Por favor haz click <a href='"+loginUrl+"'>aqui</a> to login with following credentials."
+			    		+ "<br /> Por favor haz click <a href='"+loginUrl+"'>aqui</a> para verificar tu email"
 			    		+ "<br /> Email: "+user.getEmail()
-			    		+ "<br /> Password: "+user.getPassword()
-			    		+ "<br /> Codigo de autenficacion : "+user.getEmailCode()+" para activar tu cuenta.", true);
+			    		+ "<br /> Codigo de autenficacion  "+user.getEmailCode()+" para activar tu cuenta.", true);
 				mailSender.send(message);
 		} catch (MessagingException e1) {
 			//en principio mostramos solo una error generico de tiempo de ejcucion. luego lo modificaremos
