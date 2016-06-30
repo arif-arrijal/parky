@@ -1,0 +1,16 @@
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <aside class="main-sidebar" th:fragment="sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu">
+                <li th:class="${#strings.startsWith(#httpServletRequest.requestURI,'/dashboard')}? active"><a th:href="@{/dashboard}"><i class="fa fa-dashboard"></i> <span th:text="#{menu.dashboard}"/></a></li>
+                <li th:class="${#strings.startsWith(#httpServletRequest.requestURI,'/parking')}? active"><a th:href="@{/parking}"><i class="fa fa-building"></i> <span th:text="#{menu.parking}"/></a></li>
+                <li th:class="${#strings.startsWith(#httpServletRequest.requestURI,'/conductor')}? active"><a th:href="@{/conductor}"><i class="fa fa-users"></i> <span th:text="#{menu.conductor}"/></a></li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+</html>

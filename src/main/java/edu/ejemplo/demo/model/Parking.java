@@ -1,11 +1,6 @@
 package edu.ejemplo.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 // hibernate validator es la librería encargada de validar los formularios (modelos)
@@ -14,27 +9,33 @@ import org.hibernate.validator.constraints.NotBlank;
 
 
 @Entity
-@Table(name = "PARKING")
-public class Parking {
+@Table(name = "parking")
+@PrimaryKeyJoinColumn(name="user_id", referencedColumnName="id")
+public class Parking extends User{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@NotBlank
-	private String nombre;
-	@OneToOne
-	private User usuario;	
-	@NotBlank
 	private String direccion;
-	@NotBlank 
 	private String ciudad;
-	@NotBlank
 	private String codigoPostal;
-	@NotBlank
 	private String provincia;
-	@NotBlank
 	private String cif;
+	private String telefono;
+	//tarifa por minuto de estancia -> fee
+	private Long tarifa;
+	//se deberia de autogenerar desde alguna funcion si el usuario decide cambiarla
+	//clave para autorizar el acceso del lector de OCR para cada estancia
+	//there will be an api key, so we can send petitions for cars trying to access a parking
+	private String claveAPI;
+
+	@Column(name = "direccion", nullable = false)
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	@Column(name = "ciudad", nullable = false)
 	public String getCiudad() {
 		return ciudad;
 	}
@@ -43,14 +44,16 @@ public class Parking {
 		this.ciudad = ciudad;
 	}
 
-	public String getcodigoPostal() {
+	@Column(name = "codigo_pastal", nullable = false)
+	public String getCodigoPostal() {
 		return codigoPostal;
 	}
 
-	public void setcodigoPostal(String cp) {
-		this.codigoPostal = cp;
+	public void setCodigoPostal(String codigoPostal) {
+		this.codigoPostal = codigoPostal;
 	}
 
+	@Column(name = "provincia", nullable = false)
 	public String getProvincia() {
 		return provincia;
 	}
@@ -59,6 +62,7 @@ public class Parking {
 		this.provincia = provincia;
 	}
 
+	@Column(name = "cif", nullable = false)
 	public String getCif() {
 		return cif;
 	}
@@ -67,107 +71,30 @@ public class Parking {
 		this.cif = cif;
 	}
 
-	@NotBlank
-	@Email
-	private String email;
-	@NotBlank
-	private String password;
-	
-	//long best option?
-	@NotNull
-	private float tarifa; //tarifa por minuto de estancia -> fee
-	@NotBlank
-	private String telefono; 
-	
-	//se deberia de autogenerar desde alguna funcion si el usuario decide cambiarla
-	private String claveAPI; //clave para autorizar el acceso del lector de OCR para cada estancia
-	//there will be an api key, so we can send petitions for cars trying to access a parking
-	
-	
-	public Parking() {
-		GeneradorClaves clave =  new GeneradorClaves();
-		this.claveAPI = clave.generarApiKey(128);
-		
-	}
-	
-	public Parking(String nombre, String direccion) {
-		super();
-		GeneradorClaves clave =  new GeneradorClaves();
-		this.nombre = nombre;
-		this.direccion = direccion;
-		this.claveAPI = clave.generarApiKey(128);
-	}
-	
-	
-	public String getPassword(){
-		return this.password;
-	}
-	
-	public String getTelefono(){
-		return this.telefono;
-	}
-	
-	public void setTelefono(String tel){
-		this.telefono = tel;		
-	}
-	
-	public void setPassword(String pwd){
-		this.password= pwd;
+	@Column(name = "telefono", nullable = false)
+	public String getTelefono() {
+		return telefono;
 	}
 
-	public Long getId() {
-		return id;
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public String getDireccion() {
-		return direccion;
-	}
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public void setTarifa(float cents){
-		this.tarifa = cents;
-	}
-	
-	public float getTarifa(){
+
+    @Column(name = "tarifa", nullable = false)
+	public Long getTarifa() {
 		return tarifa;
 	}
-	
-	public void setClaveAPI(String key){
-		this.claveAPI = key;
+
+	public void setTarifa(Long tarifa) {
+		this.tarifa = tarifa;
 	}
-	
-	public String getClaveAPI(){
+
+    @Column(name = "clave_api")
+	public String getClaveAPI() {
 		return claveAPI;
 	}
 
-	public void setUsuario(User user) {
-		this.usuario = user;
+	public void setClaveAPI(String claveAPI) {
+		this.claveAPI = claveAPI;
 	}
-	
-	public User getUsuario() {
-		return usuario;
-	}
-
-	@Override
-	public String toString() {
-		return "Parking [id=" + id + ", nombre=" + nombre + ", direccion=" + direccion + ", email=" + email + "]";
-	}
-	
-
 }

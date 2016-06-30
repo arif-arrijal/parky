@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/blank_layout">
+<head lang="en">
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="alert alert-danger">
+        <p th:text="${errorMsg}"></p>
+    </div>
+</th:block>
+</body>
+</html>

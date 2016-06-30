@@ -1,35 +1,22 @@
 package edu.ejemplo.demo.presentacion.parking;
 
-import java.util.Random;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
+import edu.ejemplo.demo.excepciones.NoEncontradoException;
+import edu.ejemplo.demo.excepciones.YaExisteException;
+import edu.ejemplo.demo.model.User;
+import edu.ejemplo.demo.negocio.UsuariosService;
+import edu.ejemplo.demo.presentacion.RespuestaValidacion;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.ejemplo.demo.excepciones.NoEncontradoException;
-import edu.ejemplo.demo.excepciones.YaExisteException;
-import edu.ejemplo.demo.model.Parking;
-import edu.ejemplo.demo.model.User;
-import edu.ejemplo.demo.negocio.UsuariosService;
-import edu.ejemplo.demo.presentacion.RespuestaValidacion;
-import edu.ejemplo.demo.repositorios.ParkingRepository;
-import edu.ejemplo.demo.repositorios.UserRepository;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 public class UserController {
@@ -64,11 +51,11 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping(value="/login",method = {RequestMethod.GET})
-    public String login(@RequestParam(value = "url", required = false, defaultValue = "/") String name) {
-    	return "login_global";
-
-    }
+//	@RequestMapping(value="/login",method = {RequestMethod.GET})
+//    public String login(@RequestParam(value = "url", required = false, defaultValue = "/") String name) {
+//    	return "login_global";
+//
+//    }
 	
 	@RequestMapping(value="/user/{id}/activate/{code}",method = {RequestMethod.POST})
 	@ResponseBody

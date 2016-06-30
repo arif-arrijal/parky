@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title th:text="#{global.app.title}"/>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/plugins/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/plugins/ionicons/css/ionicons.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/dist/css/skins/_all-skins.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/plugins/iCheck/square/blue.css}"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script th:src="@{/assets/html5shiv.min.js}"></script>
+    <script th:src="@{/assets/respond.min.js}"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo">
+        <b th:text="#{global.app.logo1}"/><th:block th:text="#{global.app.logo2}"/>
+    </div><!-- /.login-logo -->
+    <div class="login-box-body">
+        <form th:object="${userForm}" method="post" th:action="@{/register}" role="form">
+            <div class="box-body">
+                <div th:attr="class=${#fields.hasErrors('nombre') ? 'form-group has-error' : 'form-group'}">
+                    <label for="nombre" th:text="#{user.label.name}"/>
+                    <input type="text" class="form-control" id="nombre" th:placeholder="#{user.label.name}" th:field="*{nombre}"/>
+                    <span class="help-block"><th:block th:each="err : ${#fields.errors('nombre')}" th:text="${err}"/></span>
+                </div>
+            </div>
+            <div class="box-body">
+                <div th:attr="class=${#fields.hasErrors('email') ? 'form-group has-error' : 'form-group'}">
+                    <label for="email" th:text="#{user.label.email}"/>
+                    <input type="text" class="form-control" id="email" th:placeholder="#{user.label.email}" th:field="*{email}"/>
+                    <span class="help-block"><th:block th:each="err : ${#fields.errors('email')}" th:text="${err}"/></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat" th:text="#{login.button.register}"/>
+                </div><!-- /.col -->
+            </div>
+        </form>
+    </div><!-- /.login-box-body -->
+</div><!-- /.login-box -->
+
+<script th:src="@{/assets/plugins/jQuery/jQuery-2.1.4.min.js}"></script>
+<script>
+    $.widget.bridge('uibutton', $.ui.button);
+</script>
+<script th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
+<script>
+    $(function () {
+    });
+</script>
+</body>
+</html>

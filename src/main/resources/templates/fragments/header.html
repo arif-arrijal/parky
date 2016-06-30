@@ -1,0 +1,58 @@
+<header class="main-header">
+    <!-- Logo -->
+    <a href="#" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>P</b>K</span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><b th:text="#{global.app.logo1}"/><th:block th:text="#{global.app.logo2}"/></span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top" role="navigation">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <!-- Tasks: style can be found in dropdown.less -->
+                <!--<li class="dropdown tasks-menu">-->
+                    <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">-->
+                        <!--<i class="fa fa-flag-o"></i>-->
+                    <!--</a>-->
+                    <!--<ul class="dropdown-menu">-->
+                        <!--<li>-->
+                            <!--&lt;!&ndash; inner menu: contains the actual data &ndash;&gt;-->
+                            <!--<ul class="menu">-->
+                                <!--<li>&lt;!&ndash; Task item &ndash;&gt;-->
+                                    <!--<a th:href="@{/?lang=en}">-->
+                                        <!--<h3 th:text="#{global.language.english}"/>-->
+                                    <!--</a>-->
+                                <!--</li>&lt;!&ndash; end task item &ndash;&gt;-->
+                            <!--</ul>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+
+                <!-- Notifications: style can be found in dropdown.less -->
+                <li class="dropdown notifications-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="hidden-xs" th:text="Admin"/>
+                        <!--<span class="hidden-xs" th:text="${session.authUsername.username}"/>-->
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <!-- inner menu: contains the actual data -->
+                            <ul class="menu">
+                                <li>
+                                    <a th:href="@{/logout}">
+                                        <i class="fa fa-power-off text-red"></i> <th:block th:text="#{global.topnav.logout}"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

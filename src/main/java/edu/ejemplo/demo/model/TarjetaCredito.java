@@ -1,62 +1,81 @@
 package edu.ejemplo.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 // hibernate validator es la librería encargada de validar los formularios (modelos)
 import org.hibernate.validator.constraints.NotBlank;
 
+import java.io.Serializable;
+import java.util.Date;
+
 @Entity
-public class TarjetaCredito {
+@Table(name = "tarjeta_credito")
+public class TarjetaCredito implements Serializable{
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; // card id
-	
-	@ManyToOne
+	private Long id;
 	private User usuario; //user id that owns the card
-	
-	@NotBlank
 	private String nombreTitular; //holder name
-	
-	@CreditCardNumber(message="Please enter a valid card number")
-	private String numeroTarjeta; 
-	
-	@NotBlank
-	private String fechaCaducidad; //this is credit card Expiration date, im not sure if should be an int, or even if it could be stored in the upper attribute the whole thing
-		
+	private String numeroTarjeta;
+	private Date fechaCaducidad;
+	private Integer version;
+
+	@Id
+	@Column(name = "id", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "tarjeta_credito_seq_gen")
+	@SequenceGenerator(name = "tarjeta_credito_seq_gen", sequenceName = "tarjeta_credito_seq")
 	public Long getId() {
-	return id;
+		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	@ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
 	public User getUsuario() {
 		return usuario;
 	}
+
 	public void setUsuario(User usuario) {
 		this.usuario = usuario;
 	}
-	public String getNumeroTarjeta() {
-		return numeroTarjeta;
-	}
-	public void setNumeroTarjeta(String numeroTarjeta) {
-		this.numeroTarjeta = numeroTarjeta;
-	}
-	public String getFechaCaducidad() {
-		return fechaCaducidad;
-	}
-	public void setFechaCaducidad(String fechaCaducidad) {
-		this.fechaCaducidad = fechaCaducidad;
-	}
+
+    @Column(name = "nombre_titular", nullable = false)
 	public String getNombreTitular() {
 		return nombreTitular;
 	}
+
 	public void setNombreTitular(String nombreTitular) {
 		this.nombreTitular = nombreTitular;
-	}	
+	}
+
+    @Column(name = "numero_tarjeta", unique = true, nullable = false)
+	public String getNumeroTarjeta() {
+		return numeroTarjeta;
+	}
+
+	public void setNumeroTarjeta(String numeroTarjeta) {
+		this.numeroTarjeta = numeroTarjeta;
+	}
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_caducidad")
+	public Date getFechaCaducidad() {
+		return fechaCaducidad;
+	}
+
+	public void setFechaCaducidad(Date fechaCaducidad) {
+		this.fechaCaducidad = fechaCaducidad;
+	}
+
+    @Version
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
 }

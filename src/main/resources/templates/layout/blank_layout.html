@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:ddl="http://www.thymeleaf.org/dandelion"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <th:block th:replace="fragments/head :: head"/>
+    <th:block layout:fragment="css-addition"></th:block>
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+<div class="wrapper">
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+            <th:block layout:fragment="content"/>
+        <!-- /.content -->
+    </div><!-- /.content-wrapper -->
+    <footer th:replace="fragments/footer :: footer"/>
+    <div class="control-sidebar-bg"></div>
+</div><!-- ./wrapper -->
+    <th:block th:replace="fragments/js-common :: js-common"/>
+    <th:block layout:fragment="js-addition"/>
+</body>
+</html>

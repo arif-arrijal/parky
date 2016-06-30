@@ -3,8 +3,6 @@ package edu.ejemplo.demo.presentacion.forms;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import edu.ejemplo.demo.model.Conductor;
-import edu.ejemplo.demo.model.GeneradorClaves;
 import edu.ejemplo.demo.model.Parking;
 import edu.ejemplo.demo.model.User;
 
@@ -107,14 +105,14 @@ public class RegistrarParkingForm {
 		User user = new User();
 		user.setEmail(email);
 		user.setPassword(password);
-		user.setRol(User.ROLE_PARKING);
+//		user.setRol(User.ROLE_PARKING);
 		return user;
 	}
 	public Parking getParking() {
 		Parking parking = new Parking();
 		parking.setNombre(nombre);
 		parking.setDireccion(direccion);
-		parking.setTarifa(tarifa);
+//		parking.setTarifa(tarifa);
 		//La clave API ya se inicializado directamente en el constructor
 		parking.setTelefono(telefono);
 		parking.setCif(cif);

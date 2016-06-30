@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="head">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title th:text="#{global.app.title}"/>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/plugins/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/plugins/ionicons/css/ionicons.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/dist/css/skins/_all-skins.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/custom.css}"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script th:src="@{/assets/html5shiv.min.js}"></script>
+    <script th:src="@{/assets/respond.min.js}"></script>
+    <![endif]-->
+</th:block>
+</html>

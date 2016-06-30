@@ -8,6 +8,7 @@ import edu.ejemplo.demo.model.User;
 import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends CrudRepository<User, Long> {
+	User findOneByEmail(String email);
 	User getUserByEmail(String email);
 	User getUserByEmailCode(String code);
 	User findOneByEmailAndEmailCode(String email, String code);

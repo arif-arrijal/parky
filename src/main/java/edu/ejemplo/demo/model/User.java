@@ -1,125 +1,102 @@
 package edu.ejemplo.demo.model;
 
-import java.util.Arrays;
-import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Set;
 
 @Entity
-@Table(name = "USER")
-public class User implements UserDetails {
+@Table(name = "user")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class User implements Serializable{
 
-	//todos los objetos serializables deben de llevar un identificador de version
-	//nos permite hacer evolutivos y diferenciar versiones para evitar problemas.
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2042799731106514446L;
 
-	public static final String ROLE_CONDUCTOR = "ROLE_CONDUCTOR"; 
-	public static final String ROLE_PARKING = "ROLE_PARKING"; 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+    private String nombre;
 	private String email;
-	
 	private String password;
-	
-	private String rol;
-	
+	private Set<Role> roles;
 	private String emailCode; //the code to be sent to the user to validate the address
+	private Boolean emailVerificado; //will be false until email is verified from the activation code /link
+    private Integer version;
 
-	private boolean emailVerificado; //will be false until email is verified from the activation code /link
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "user_seq_gen")
+    @SequenceGenerator(name = "user_seq_gen", sequenceName = "user_seq")
+    public Long getId() {
+        return id;
+    }
 
-	public User() {
-	}
-	
-	@Override
-	public String getPassword(){
-		return this.password;
-	}
-	
-	public void setPassword(String pwd){
-		this.password= pwd;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    @Column(name = "nombre", nullable = false)
+    public String getNombre() {
+        return nombre;
+    }
 
-	public boolean getEmailVerificado() {
-		return emailVerificado;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public void setEmailVerificado(boolean emailVerificado) {
-		this.emailVerificado = emailVerificado;
-	}
+    @Column(name = "email", unique = true, nullable = false)
+    public String getEmail() {
+        return email;
+    }
 
-	public String getEmailCode() {
-		return emailCode;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setEmailCode(String emailCode) {
-		this.emailCode = emailCode;
-	}
+    @JsonIgnore
+    @Column(name = "password")
+    public String getPassword() {
+        return password;
+    }
 
-	public String getRol() {
-		return rol;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setRol(String rol) {
-		this.rol = rol;
-	}
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "user_role",joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Arrays.asList(new SimpleGrantedAuthority(rol));
-	}
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
-	@Override
-	public String getUsername() {
-		return email;
-	}
+    @Column(name = "email_code", unique = true)
+    public String getEmailCode() {
+        return emailCode;
+    }
 
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
+    public void setEmailCode(String emailCode) {
+        this.emailCode = emailCode;
+    }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
+    @Column(name = "email_verificado")
+    public Boolean getEmailVerificado() {
+        return emailVerificado;
+    }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
+    public void setEmailVerificado(Boolean emailVerificado) {
+        this.emailVerificado = emailVerificado;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
-	
-	@Override
-	public String toString() {
-		return "Parking [id=" + id  + ", email=" + email + "]";
-	}
-	
+    @Version
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 }

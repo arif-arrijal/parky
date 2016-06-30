@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/blank_layout">
+<head lang="en">
+</head>
+<body>
+<th:block layout:fragment="content">
+    <form th:action="@{/verify/save}" th:object="${userForm}" method="post">
+
+        <div class="form-body">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{nombre}"/>
+            <input type="hidden" th:field="*{email}"/>
+            <input type="hidden" th:field="*{emailCode}"/>
+
+            <div th:attr="class=${#fields.hasErrors('password') ? 'form-group has-error' : 'form-group'}">
+                <label for="password" class="col-lg-2 control-label" th:text="#{user.label.password}"/>
+                <div class="col-lg-10">
+                    <input type="password" id="password" name="password" class="form-control" th:placeholder="#{user.label.password}" th:field="*{password}"/>
+                    <span class="help-block"><i class="icon-remove-sign"></i> <th:block th:each="err : ${#fields.errors('password')}" th:text="${err}"/> </span>
+                </div>
+            </div>
+
+            <div th:attr="class=${#fields.hasErrors('password2') ? 'form-group has-error' : 'form-group'}">
+                <label for="password2" class="col-lg-2 control-label" th:text="#{user.label.password2}"/>
+                <div class="col-lg-10">
+                    <input type="password" id="password2" name="password2" class="form-control" th:placeholder="#{user.label.password2}" th:field="*{password2}"/>
+                    <span class="help-block"><i class="icon-remove-sign"></i> <th:block th:each="err : ${#fields.errors('password2')}" th:text="${err}"/> </span>
+                </div>
+            </div>
+
+            <!-- /.form-group -->
+
+        </div>
+        <!-- /.form-body -->
+
+        <div class="form-footer">
+            <div class="pull-right">
+                <button class="btn btn-success" type="submit">Save</button>
+            </div>
+        </div>
+        <!-- /.form-footer -->
+
+    </form>
+</th:block>
+</body>
+</html>

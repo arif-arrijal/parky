@@ -31,11 +31,12 @@ public class UsuarioServiceImpl implements UsuariosService, UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		UserDetails ud = userRepository.getUserByEmail(email);
-		if (ud == null) {
-			throw new UsernameNotFoundException("Usuario no encontrado");
-		} 
-		return ud;
+//		UserDetails ud = userRepository.getUserByEmail(email);
+//		if (ud == null) {
+//			throw new UsernameNotFoundException("Usuario no encontrado");
+//		}
+//		return ud;
+		return null;
 	}
 	
 	@Override

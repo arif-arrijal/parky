@@ -3,7 +3,6 @@ package edu.ejemplo.demo.presentacion.forms;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import edu.ejemplo.demo.model.Conductor;
 import edu.ejemplo.demo.model.GeneradorClaves;
 import edu.ejemplo.demo.model.User;
 import edu.ejemplo.demo.validators.FieldMatch;
@@ -51,16 +50,10 @@ public class RegistrarConductorForm{
 		User user = new User();
 		user.setEmail(email);
 		user.setPassword(password);
-		user.setRol(User.ROLE_CONDUCTOR);
+//		user.setRol(User.ROLE_CONDUCTOR);
 		user.setEmailCode(new GeneradorClaves().generarApiKey(6));
 		user.setEmailVerificado(false);
 		return user;
-	}
-	
-	public Conductor getConductor() {
-		Conductor conductor = new Conductor();
-		conductor.setNombre(nombre);
-		return conductor;
 	}
 	
 }

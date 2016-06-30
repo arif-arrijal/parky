@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:dt="http://github.com/dandelion/datatables"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/main_layout">
+<head></head>
+<body>
+<th:block layout:fragment="content">
+    <section class="content-header">
+        <h1>
+            <th:block th:text="#{menu.dashboard}"/>
+            <!--<small>Control panel</small>-->
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> <th:block th:text="#{crumb.home}"/></a></li>
+            <li class="active" th:text="#{crumb.dashboard}"/>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        Not implement yet
+    </section>
+</th:block>
+<th:block layout:fragment="js-addition">
+    <script th:src="@{/assets/plugins/chartjs/Chart.min.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(document).ready(function() {
+
+        });
+        /*]]>*/
+    </script>
+</th:block>
+</body>
+</html>

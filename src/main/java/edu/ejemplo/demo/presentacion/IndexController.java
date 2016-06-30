@@ -65,13 +65,13 @@ public class IndexController {
 		return "layout";
 	}
 
-	@RequestMapping(value="/verify/{email}/{verifyCode}")
-	public String index(Model model, @PathVariable("email") String email, @PathVariable("verifyCode") String verifyCode) {
-		if(conductorService.activate(email, verifyCode)){
-			model.addAttribute("successMsg", "Activated success");
-		}else{
-			model.addAttribute("errorMsg", "Activated failed");
-		}
-		return "conductor/activation";
-	}
+//	@RequestMapping(value="/verify/{email}/{verifyCode}")
+//	public String index(Model model, @PathVariable("email") String email, @PathVariable("verifyCode") String verifyCode) {
+//		if(conductorService.activate(email, verifyCode)){
+//			model.addAttribute("successMsg", "Activated success");
+//		}else{
+//			model.addAttribute("errorMsg", "Activated failed");
+//		}
+//		return "conductor/activation";
+//	}
 }

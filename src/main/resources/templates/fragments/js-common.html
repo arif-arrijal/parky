@@ -1,0 +1,10 @@
+<th:block th:fragment="js-common">
+    <script th:src="@{/assets/plugins/jQuery/jQuery-2.1.4.min.js}"></script>
+    <script th:src="@{/assets/jquery-ui.min.js}"></script>
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <script th:src="@{/assets/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
+    <script th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/dist/js/app.js}"></script>
+</th:block>

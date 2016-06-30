@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/blank_layout">
+<head lang="en">
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="alert alert-success">
+        <p th:text="${statusMessageKey}"/>
+    </div>
+    <a class="btn btn-danger" th:href="@{/login}" th:text="#{login.button.submit}"/>
+</th:block>
+</body>
+</html>
