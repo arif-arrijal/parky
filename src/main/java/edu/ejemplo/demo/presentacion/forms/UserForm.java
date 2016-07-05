@@ -13,9 +13,19 @@ public class UserForm implements Serializable{
     private Long id;
     private String nombre;
     private String email;
+    private String email2;
     private String password;
     private String password2;
     private String emailCode;
+    private Integer errorCheck;
+
+    public Integer getErrorCheck() {
+        return errorCheck;
+    }
+
+    public void setErrorCheck(Integer errorCheck) {
+        this.errorCheck = errorCheck;
+    }
 
     public Long getId() {
         return id;
@@ -44,6 +54,17 @@ public class UserForm implements Serializable{
         this.email = email;
     }
 
+    @NotEmpty
+    @Email
+    public String getEmail2() {
+        return email2;
+    }
+
+    public void setEmail2(String email2) {
+        this.email2 = email2;
+    }
+
+    @NotEmpty
     public String getPassword() {
         return password;
     }
@@ -67,4 +88,5 @@ public class UserForm implements Serializable{
     public void setEmailCode(String emailCode) {
         this.emailCode = emailCode;
     }
+
 }

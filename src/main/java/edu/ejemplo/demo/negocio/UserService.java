@@ -1,6 +1,7 @@
 package edu.ejemplo.demo.negocio;
 
 import edu.ejemplo.demo.model.User;
+import edu.ejemplo.demo.presentacion.forms.UserForm;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +10,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface UserService {
 
-    User saveOrUpdate(User entity, HttpServletRequest request);
+    User saveOrUpdate(User entity, HttpServletRequest request, UserForm userForm);
     User resetPassword(User user);
 }

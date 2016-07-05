@@ -1,19 +1,18 @@
 package edu.ejemplo.demo.presentacion;
 
+import edu.ejemplo.demo.presentacion.forms.UserForm;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-/**
- * Created by zulfy on 30/06/16.
- */
+
 @Controller
 public class LoginController {
 
-    @RequestMapping(value = "/login")
-    public String login(){
+    @RequestMapping(value = "/login" ,method = RequestMethod.GET)
+    public String login(Model model){
+        model.addAttribute("userForm", new UserForm());
         return "login";
     }
-
-
-
 }

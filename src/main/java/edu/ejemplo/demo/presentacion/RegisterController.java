@@ -1,9 +1,7 @@
 package edu.ejemplo.demo.presentacion;
 
-import edu.ejemplo.demo.model.Parking;
 import edu.ejemplo.demo.model.User;
 import edu.ejemplo.demo.negocio.UserService;
-import edu.ejemplo.demo.presentacion.forms.ParkingForm;
 import edu.ejemplo.demo.presentacion.forms.UserForm;
 import edu.ejemplo.demo.validators.PasswordValidator;
 import org.slf4j.Logger;
@@ -56,13 +54,14 @@ public class RegisterController {
                        RedirectAttributes redirectAttributes, Locale locale, HttpServletRequest request){
 
         if(bindingResult.hasErrors()){
+            userForm.setErrorCheck(1);
             model.addAttribute("userForm", userForm);
-            return "register";
+            return "login";
         }
         try{
             User user = new User();
             BeanUtils.copyProperties(userForm, user);
-            userService.saveOrUpdate(user, request);
+            userService.saveOrUpdate(user, request, userForm);
             String successMsg;
             if(userForm.getId() == null){
                 successMsg = messageSource.getMessage("conductor.notif.create.success", new Object[]{user.getNombre()}, locale);
@@ -70,11 +69,13 @@ public class RegisterController {
                 successMsg = messageSource.getMessage("global.notif.success.edit", new Object[]{user.getNombre()}, locale);
             }
             redirectAttributes.addFlashAttribute("successMsg", successMsg);
+            redirectAttributes.addFlashAttribute("errorCheck", 0);
             return "redirect:/login";
         }catch (Exception e){
             LOGGER.error(e.getMessage(), e.getCause());
             model.addAttribute("errorMsg", e.getMessage());
-            return "register";
+            model.addAttribute("errorCheck", 1);
+            return "login";
         }
     }
 }

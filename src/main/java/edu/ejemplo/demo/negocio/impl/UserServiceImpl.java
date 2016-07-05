@@ -1,12 +1,12 @@
 package edu.ejemplo.demo.negocio.impl;
 
-import com.github.dandelion.datatables.core.ajax.DataSet;
-import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
 import edu.ejemplo.demo.model.Role;
 import edu.ejemplo.demo.model.User;
 import edu.ejemplo.demo.negocio.UserService;
+import edu.ejemplo.demo.presentacion.forms.UserForm;
 import edu.ejemplo.demo.repositorios.RoleRepository;
 import edu.ejemplo.demo.repositorios.UserRepository;
+import edu.ejemplo.demo.validators.SignupValidator;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -52,13 +50,20 @@ public class UserServiceImpl implements UserService {
     private SpringTemplateEngine templateEngine;
     @Value("${spring.mail.username}")
     private String emailSender;
+    @Autowired
+    private SignupValidator signupValidator;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ, rollbackFor = Exception.class, timeout = 30)
-    public User saveOrUpdate(User entity, HttpServletRequest request) {
+    public User saveOrUpdate(User entity, HttpServletRequest request, UserForm userForm) {
+
         User user;
         boolean sentEmail = false;
 
+//        validate form
+        signupValidator.validateForSignUp(userForm);
+
+//        check if new or update
         if(entity.getId() != null){
             user = userRepository.findOne(entity.getId());
             BeanUtils.copyProperties(entity, user);
@@ -68,12 +73,13 @@ public class UserServiceImpl implements UserService {
             roleSet.add(roleParking);
             user = entity;
             user.setEmailCode(RandomStringUtils.randomAlphanumeric(6));
-            user.setPassword(null);
+//            user.setPassword(null);
             user.setEmailVerificado(false);
             user.setRoles(roleSet);
             sentEmail = true;
         }
 
+//           encode password
         if(entity.getPassword() != null  && entity.getPassword() != ""){
             String hashPassword = passwordEncoder.encode(entity.getPassword());
             user.setPassword(hashPassword);
@@ -100,7 +106,6 @@ public class UserServiceImpl implements UserService {
                 LOGGER.error(e.getMessage(), e.getCause());
             }
         }
-
         return user;
     }
 
