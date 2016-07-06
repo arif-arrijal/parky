@@ -10,6 +10,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface UserService {
 
-    User saveOrUpdate(User entity, HttpServletRequest request, UserForm userForm);
+    User saveOrUpdate(User entity, HttpServletRequest request, UserForm userForm, String gRecaptchaResponse);
     User resetPassword(User user);
 }

@@ -12,6 +12,8 @@ import java.util.Set;
 public class User implements Serializable{
 
     private static final long serialVersionUID = 2042799731106514446L;
+    public static final String SITE_KEY = "6LdaMSQTAAAAAIgXlcJkKfcMSkGIEPZK-NRHxTU8";
+    public static final String SECRET_KEY = "6LdaMSQTAAAAADuYSPx8yLa8ydBRP9SbYmN3IpGC";
 
 	private Long id;
     private String nombre;

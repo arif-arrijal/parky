@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SignupValidator {
 
+    
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -26,7 +27,8 @@ public class SignupValidator {
         }
 
         //check if email not match with confirm email
-        if (!userForm.getEmail().equals(userForm.getEmail2())) {
+        if(userForm.getEmail().equals(userForm.getEmail2())) {
+        }else{
             String error = messageSource.getMessage("error.email.notmatch.with.confirm", null, null);
             throw new BusinessLogicException(error);
         }

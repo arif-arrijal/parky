@@ -2,7 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -200,13 +199,15 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="g-recaptcha" data-sitekey="6LdaMSQTAAAAAIgXlcJkKfcMSkGIEPZK-NRHxTU8"></div>
+                                <div class="form-group">
+                                    <div class="g-recaptcha" data-sitekey="6LdaMSQTAAAAAIgXlcJkKfcMSkGIEPZK-NRHxTU8"></div>
+                                </div>
                         </div><!-- /.box-body -->
                 </div>
                 <div class="modal-footer">
-                    <div align="left">
-                        <a style="color: black">Already have account? sign in </a><a id="btn-sign-in" href="" data-dismiss="modal">here</a>
-                    </div>
+                        <div align="left">
+                            <a style="color: black">Already have account? sign in </a><a id="btn-sign-in" href="" data-dismiss="modal">here</a>
+                        </div>
                     <div>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary" th:text="#{global.label.signup}" />
@@ -253,8 +254,11 @@
                         </div><!-- /.box-body -->
                     </div>
                     <div class="modal-footer">
-                        <div align="left">
-                            <a style="color: black">Not have account? sign up </a><a id="btn-sign-up2" href="" data-dismiss="modal">here</a>
+                        <div>
+                            <div align="left">
+                                <a style="color: black">Not have account? sign up </a><a id="btn-sign-up2" href="" data-dismiss="modal">here</a>
+                                <a style="color: black ; text-align: right" th:text="#{label.forgot.password}" ></a>
+                            </div>
                         </div>
                         <div>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -290,6 +294,8 @@
 
     <!-- Theme JavaScript -->
     <script th:src="@{/assets/landing/js/grayscale.min.js}"></script>
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 
     <script type="text/javascript">
         $(document).ready(function() {

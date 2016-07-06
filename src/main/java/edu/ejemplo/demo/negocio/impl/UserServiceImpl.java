@@ -1,11 +1,13 @@
 package edu.ejemplo.demo.negocio.impl;
 
+import edu.ejemplo.demo.excepciones.BusinessLogicException;
 import edu.ejemplo.demo.model.Role;
 import edu.ejemplo.demo.model.User;
 import edu.ejemplo.demo.negocio.UserService;
 import edu.ejemplo.demo.presentacion.forms.UserForm;
 import edu.ejemplo.demo.repositorios.RoleRepository;
 import edu.ejemplo.demo.repositorios.UserRepository;
+import edu.ejemplo.demo.validators.CaptchaValidator;
 import edu.ejemplo.demo.validators.SignupValidator;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,18 +55,30 @@ public class UserServiceImpl implements UserService {
     private String emailSender;
     @Autowired
     private SignupValidator signupValidator;
+    @Autowired
+    private CaptchaValidator captchaValidator;
+    @Autowired
+    private MessageSource messageSource;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ, rollbackFor = Exception.class, timeout = 30)
-    public User saveOrUpdate(User entity, HttpServletRequest request, UserForm userForm) {
+    public User saveOrUpdate(User entity, HttpServletRequest request, UserForm userForm, String gRecaptchaResponse) {
 
         User user;
         boolean sentEmail = false;
+        Boolean validCaptcha;
 
-//        validate form
+        //validate form
         signupValidator.validateForSignUp(userForm);
 
-//        check if new or update
+        //check captcha is valid or not valid
+        validCaptcha = captchaValidator.verify(gRecaptchaResponse);
+        if (!validCaptcha){
+            String error = messageSource.getMessage("error.captcha.invalid", null, null);
+            throw new BusinessLogicException(error);
+        }
+
+        //check if new or update
         if(entity.getId() != null){
             user = userRepository.findOne(entity.getId());
             BeanUtils.copyProperties(entity, user);

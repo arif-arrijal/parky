@@ -53,15 +53,18 @@ public class RegisterController {
     public String save(Model model, @Valid UserForm userForm, BindingResult bindingResult,
                        RedirectAttributes redirectAttributes, Locale locale, HttpServletRequest request){
 
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+
         if(bindingResult.hasErrors()){
             userForm.setErrorCheck(1);
             model.addAttribute("userForm", userForm);
             return "login";
         }
         try{
+
             User user = new User();
             BeanUtils.copyProperties(userForm, user);
-            userService.saveOrUpdate(user, request, userForm);
+            userService.saveOrUpdate(user, request, userForm, gRecaptchaResponse);
             String successMsg;
             if(userForm.getId() == null){
                 successMsg = messageSource.getMessage("conductor.notif.create.success", new Object[]{user.getNombre()}, locale);
