@@ -84,6 +84,7 @@ public class ParkingController {
             redirectAttributes.addFlashAttribute("successMsg", successMsg);
             return "redirect:/parking";
         }catch (Exception e){
+            e.printStackTrace();
             LOGGER.error(e.getMessage(), e.getCause());
             model.addAttribute("errorMsg", e.getMessage());
             return "parking/detail";

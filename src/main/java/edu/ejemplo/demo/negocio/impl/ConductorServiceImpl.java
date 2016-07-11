@@ -1,27 +1,7 @@
 package edu.ejemplo.demo.negocio.impl;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
-
-import edu.ejemplo.demo.excepciones.YaExisteException;
-import edu.ejemplo.demo.model.User;
 import edu.ejemplo.demo.negocio.ConductorService;
-import edu.ejemplo.demo.repositorios.UserRepository;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ConductorServiceImpl implements ConductorService {
@@ -42,7 +22,7 @@ public class ConductorServiceImpl implements ConductorService {
 //
 //	@Override
 //	@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Exception.class, timeout = 30)
-//	public void registrar(User user, Conductor conductor, HttpServletRequest request) throws YaExisteException {
+//	public vozid registrar(User user, Conductor conductor, HttpServletRequest request) throws YaExisteException {
 //
 //		if (userRepository.getUserByEmail(user.getEmail()) != null) {
 //			throw new YaExisteException();

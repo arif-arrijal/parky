@@ -1,10 +1,12 @@
 package edu.ejemplo.demo.repositorios;
 
-import org.springframework.data.repository.CrudRepository;
-
 import edu.ejemplo.demo.model.Coche;
-import edu.ejemplo.demo.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CarRepository extends CrudRepository<Coche, Long> {
-	
+public interface CarRepository extends JpaRepository<Coche, Long> {
+
+    Coche findById(Long id);
+    Long countByMatricula(String matricula);
+    Long countByNombreCoche(String nombreCoche);
+
 }

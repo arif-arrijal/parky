@@ -35,11 +35,11 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         }
 
         User appUser = userRepository.findOneByEmail(username);
-        if(appUser == null || !appUser.getEmailVerificado()){
-            throw new UsernameNotFoundException("User not found or inactive");
+        if(appUser == null){
+            throw new UsernameNotFoundException("User not found");
         }
 
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         for(Role role : appUser.getRoles()){
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getCode());
             grantedAuthorities.add(grantedAuthority);

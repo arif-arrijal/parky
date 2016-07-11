@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/main_layout">
+<head></head>
+<body>
+<th:block layout:fragment="content">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <th:block th:text="#{menu.my.cars}"/>
+            <small th:text="#{menu.add.car}"/>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a th:href="@{/dashboard}"><i class="fa fa-dashboard"></i> <th:block th:text="#{crumb.home}"/></a></li>
+            <li><a th:href="@{/car}"><th:block th:text="#{menu.my.cars}"/></a></li>
+            <li class="active" th:text="#{menu.add.car}"/>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <div  class="alert alert-success fade in" th:if="${successMsg != null}">
+            <input type="hidden" id="successMsg" value="1" th:if="${successMsg != null}" />
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <i class="fa fa-check-circle fa-fw fa-lg"></i>
+            <th:block th:if="${successMsg != null}" th:text="${successMsg}"/>
+        </div>
+
+        <div class="alert alert-danger fade in" th:if="${errorMsg != null  or exc != null}">
+            <input type="hidden" id="errorMsg" value="1" th:if="${errorMsg != null}" />
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <i class="fa fa-times-circle fa-fw fa-lg"></i>
+            <th:block th:if="${errorMsg != null}" th:text="${errorMsg}"/>
+            <th:block th:if="${exc != null}" th:text="${exc.message}"/>
+        </div>
+
+        <form method="post" id="carForm" th:action="@{/car/add}" th:object="${carForm}" enctype="multipart/form-data" role="form">
+            <div class="box box-primary">
+                    <div class="box-body">
+                        <input type="hidden" id="carId" th:field="*{id}"/>
+                        <div class="form-group">
+                            <div th:attr="class=${#fields.hasErrors('carPlate') ? 'form-group has-error' : 'form-group'}">
+                                <label for="carPlate" th:text="#{car.label.carplate}"/>
+                                <input type="text" class="form-control" id="carPlate" th:placeholder="#{car.label.carplate}" th:field="*{carPlate}"/>
+                                <span class="help-block"><th:block th:each="err : ${#fields.errors('carPlate')}" th:text="${err}"/></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div th:attr="class=${#fields.hasErrors('carPlate2') ? 'form-group has-error' : 'form-group'}">
+                                <label for="carPlate" th:text="#{car.label.carplate.confirm}"/>
+                                <input type="text" class="form-control" id="carPlate2" th:placeholder="#{car.label.carplate.confirm}" th:field="*{carPlate2}"/>
+                                <span class="help-block"><th:block th:each="err : ${#fields.errors('carPlate2')}" th:text="${err}"/></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div th:attr="class=${#fields.hasErrors('carName') ? 'form-group has-error' : 'form-group'}">
+                                <label for="carPlate" th:text="#{car.label.carname}"/>
+                                <input type="text" class="form-control" id="carName" th:placeholder="#{car.label.carname}" th:field="*{carName}"/>
+                                <span class="help-block"><th:block th:each="err : ${#fields.errors('carName')}" th:text="${err}"/></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <div class="col-lg-10">
+                                    <img id="fotoPreview"  class="photo-image-size"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div th:attr="class=${#fields.hasErrors('carPict') ? 'form-group has-error' : 'form-group'}">
+                                <input type="file" id="fotoBrowser" th:field="*{carPict}" accept="image/*"/>
+                                <span class="help-block"><th:block th:each="err : ${#fields.errors('carPict')}" th:text="${err}"/></span>
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <a th:href="@{/car/list}" type="button" class="btn btn-danger" th:text="#{global.button.cancel}"/>
+                        <button type="submit" class="btn btn-primary" th:text="#{global.button.add}"/>
+                    </div>
+            </div>
+        </form>
+    </section><!-- /.content -->
+
+</th:block>
+<th:block layout:fragment="js-addition">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(document).ready(function() {
+
+        });
+        /*]]>*/
+    </script>
+</th:block>
+</body>
+</html>

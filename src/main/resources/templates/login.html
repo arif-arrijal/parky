@@ -57,10 +57,13 @@
                         <a class="page-scroll" href="#about">About</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#signup">Sign Up</a>
+                        <a class="page-scroll" href="#signup" th:text="#{global.label.signup}"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
+                        <a class="page-scroll" href="#signin" th:text="#{global.label.signin}"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact" th:text="#{global.label.contact}"></a>
                     </li>
                 </ul>
             </div>
@@ -107,6 +110,18 @@
                     <h2 th:text="#{global.label.signup.parky}"></h2>
                     <p th:text="#{parky.signup.description}"></p>
                     <a id="btn-sign-up" class="btn btn-default btn-lg">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="signin" class="content-section text-center">
+        <div class="signin-section">
+            <div class="container">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h2 th:text="#{global.label.signin.parky}"></h2>
+                    <p th:text="#{parky.signin.description}"></p>
+                    <a id="btn-sign-in2" class="btn btn-default btn-lg">Sign In</a>
                 </div>
             </div>
         </div>
@@ -290,7 +305,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 
     <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&amp;sensor=false"></script>
+    <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&amp;sensor=false"></script>-->
 
     <!-- Theme JavaScript -->
     <script th:src="@{/assets/landing/js/grayscale.min.js}"></script>
@@ -317,6 +332,10 @@
             });
 
             $('#btn-sign-in').click(function(){
+                $('#modal-sign-in').modal('show');
+            });
+
+            $('#btn-sign-in2').click(function(){
                 $('#modal-sign-in').modal('show');
             });
 
