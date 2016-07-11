@@ -11,8 +11,9 @@
                 <li th:class="${#strings.startsWith(#httpServletRequest.requestURI,'/car')}? active"><a th:href="@{/car}"><i class="fa fa-car"></i> <span th:text="#{menu.my.cars}"/></a></li>
                 <li th:class="${#strings.startsWith(#httpServletRequest.requestURI,'/payment')}? active"><a th:href="@{/payment}"><i class="fa fa-credit-card"></i> <span th:text="#{menu.my.payments}"/></a></li>
                 <li th:class="${#strings.startsWith(#httpServletRequest.requestURI,'/stay')}? active"><a th:href="@{/stay}"><i class="fa fa-building"></i> <span th:text="#{menu.my.stays}"/></a></li>
-                    <li th:class="${#strings.startsWith(#httpServletRequest.requestURI,'/parking')}? active"><a th:href="@{/parking}"><i class="fa fa-building"></i> <span th:text="#{menu.parking}"/></a></li>
-                    <li th:class="${#strings.startsWith(#httpServletRequest.requestURI,'/conductor')}? active"><a th:href="@{/conductor}"><i class="fa fa-users"></i> <span th:text="#{menu.conductor}"/></a></li>
+                <li th:class="${#strings.startsWith(#httpServletRequest.requestURI,'/province')}? active"><a th:href="@{/province}"><i class="fa fa-globe"></i> <span th:text="#{menu.my.provinces   }"/></a></li>
+                <li th:class="${#strings.startsWith(#httpServletRequest.requestURI,'/parking')}? active"><a th:href="@{/parking}"><i class="fa fa-building"></i> <span th:text="#{menu.parking}"/></a></li>
+                <li th:class="${#strings.startsWith(#httpServletRequest.requestURI,'/conductor')}? active"><a th:href="@{/conductor}"><i class="fa fa-users"></i> <span th:text="#{menu.conductor}"/></a></li>
             </ul>
         </section>
         <!-- /.sidebar -->

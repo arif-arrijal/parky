@@ -12,6 +12,9 @@ import edu.ejemplo.demo.repositorios.CarDataDao;
 import edu.ejemplo.demo.repositorios.CarRepository;
 import edu.ejemplo.demo.repositorios.UserRepository;
 import edu.ejemplo.demo.validators.CarValidator;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +25,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StreamUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -56,36 +61,33 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Coche saveOrUpdate(CarForm form, HttpServletRequest request){
+
+        String ROOT = "upload";
+
         Coche coche = new Coche();
 
         try {
             //validate data
             carValidator.validateCar(form);
-            extractUploadedFotoBytes(form);
-            byte[] bytes = form.getCarPictBytes();
-            String filename = form.getCarPlate() + "_" + form.getCarName();
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String name = authentication.getName();
             User user = userRepository.findOneByEmail(name);
 
+            String filename = "";
+
+            if (!form.getCarPict().isEmpty()){
+                String extension = FilenameUtils.getExtension(form.getCarPict().getOriginalFilename());
+                log.info("extension obj " + extension);
+                filename = RandomStringUtils.randomAlphanumeric(10)+ "." + extension;
+
                 // Creating the directory to store file
-                String rootPath = System.getProperty("catalina.home");
-                File dir = new File(rootPath + File.separator + "tmpFiles");
+                File dir = new File(ROOT);
                 if (!dir.exists())
                     dir.mkdirs();
+                Files.copy(form.getCarPict().getInputStream(), Paths.get(ROOT, filename));
+                log.info("successfully save file " + filename + " to directory " + ROOT);
+            }
 
-                // Create the file on server
-                File serverFile = new File(dir.getAbsolutePath()
-                        + File.separator + filename);
-                BufferedOutputStream stream = new BufferedOutputStream(
-                        new FileOutputStream(serverFile));
-                stream.write(bytes);
-                stream.close();
-
-                log.info("Server File Location="
-                        + serverFile.getAbsolutePath());
-
-                log.info("You successfully uploaded file=" + filename);
 
             //save data
             if (form.getId() != null){
@@ -94,24 +96,29 @@ public class CarServiceImpl implements CarService {
                 coche.setActivo(false);
                 coche.setMatriculaValidada(false);
                 coche.setConductor(user);
-                coche.setFotoPermiso(serverFile.getAbsolutePath());
                 coche.setNombreCoche(form.getCarName());
+                if (!form.getCarPict().isEmpty()){
+                    Files.deleteIfExists(Paths.get(ROOT, coche.getFotoPermiso()));
+                    coche.setFotoPermiso(filename);
+                }
                 carRepository.save(coche);
             }else {
                 coche.setMatricula(form.getCarPlate());
                 coche.setActivo(false);
                 coche.setMatriculaValidada(false);
                 coche.setConductor(user);
-                coche.setFotoPermiso(serverFile.getAbsolutePath());
                 coche.setNombreCoche(form.getCarName());
+                coche.setFotoPermiso(filename);
                 carRepository.save(coche);
             }
 
-        }catch (IOException io){
+        }catch (FileAlreadyExistsException io){
             io.printStackTrace();
-            String error = messageSource.getMessage("error.failed.upload", null, null);
+            Object[] args = {form.getCarPict().getOriginalFilename()};
+            String error = messageSource.getMessage("error.file.already.exist", args, null);
             throw new BusinessLogicException(error);
         }catch (Exception ex){
+            ex.printStackTrace();
             String exception = ex.getMessage();
             throw new BusinessLogicException(exception);
         }
@@ -130,14 +137,22 @@ public class CarServiceImpl implements CarService {
     @Override
     public CarForm findCarById(Long id) {
         Coche coche = carRepository.findById(id);
-        CarForm carForm = editCarConverter.convertToEditAndDetail(coche);
-        return carForm;
+        return editCarConverter.convertToEditAndDetail(coche);
     }
 
-    private void extractUploadedFotoBytes(CarForm carForm) throws IOException {
-        byte[] carPhotoBytes = StreamUtils.copyToByteArray(carForm.getCarPict().getInputStream());
-        carForm.getCarPict().getInputStream().close();
-        carForm.setCarPictBytes(carPhotoBytes);
+    @Override
+    public byte[] getCarPhoto(Long id) {
+        Coche coche = carRepository.findById(id);
+        byte[] file = new byte[0];
+            try {
+                Path path = Paths.get("upload", coche.getFotoPermiso());
+                InputStream is = Files.newInputStream(path);
+                file = IOUtils.toByteArray(is);
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        
+        return file;
     }
-
 }

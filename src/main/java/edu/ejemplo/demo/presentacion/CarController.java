@@ -12,10 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,46 +45,6 @@ public class CarController {
         return "car/list";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add(Model model){
-        model.addAttribute("carForm", new CarForm());
-        return "car/add";
-    }
-
-    @RequestMapping(path = "/add", method = RequestMethod.POST)
-    public String submitAddCarForm(
-            @ModelAttribute("carForm") CarForm carForm,
-            BindingResult bindingResult,
-            Model model,
-            RedirectAttributes redirectAttributes,
-            HttpServletRequest request
-    ) {
-        String returnPath = "";
-        try {
-            validator.validate(carForm, bindingResult);
-            if (bindingResult.hasErrors()) {
-                log.info("add car validation error");
-                model.addAttribute("carForm", carForm);
-                returnPath = "car/add";
-            } else {
-                log.info("start service add car");
-                Coche coche =  carService.saveOrUpdate(carForm, request);
-                if(coche.getId()!= 0){
-                    log.info("success create car with ID " + coche.getId() + " and car plate " + coche.getMatricula());
-                    returnPath = "redirect:/car/detail/?id=" + coche.getId();
-                }
-                Object[] Args = {coche.getMatricula()};
-                String success = messageSource.getMessage("success.create.car", Args, null);
-                redirectAttributes.addFlashAttribute("successMsg", success);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            model.addAttribute("errorMsg", ex.getMessage());
-            returnPath = "/car/add";
-        }
-        return returnPath;
-    }
-
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(Model model, @RequestParam(value = "id", required = false) Long id){
         CarForm carForm = new CarForm();
@@ -100,7 +60,7 @@ public class CarController {
                        RedirectAttributes redirectAttributes, HttpServletRequest request){
 
         if(bindingResult.hasErrors()){
-            model.addAttribute("parkingForm", carForm);
+            model.addAttribute("carForm", carForm);
             return "car/detail";
         }
         try{
@@ -132,5 +92,11 @@ public class CarController {
         Object[] args = {carplate};
         redirectAttributes.addFlashAttribute("successMsg", messageSource.getMessage("car.notif.delete", args, locale));
         return  "redirect:/car";
+    }
+
+    @RequestMapping(path = "/photo", method = RequestMethod.GET)
+    public @ResponseBody
+    byte[] getPhoto(@RequestParam("id") Long id) {
+        return carService.getCarPhoto(id);
     }
 }

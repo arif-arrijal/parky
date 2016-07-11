@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:dt="http://github.com/dandelion/datatables"
+      layout:decorator="layout/main_layout">
+<head></head>
+<body>
+<th:block layout:fragment="css-addition">
+    <link rel="stylesheet" th:href="@{/assets/plugins/datatables/dataTables.bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/plugins/datatables/jquery.dataTables.css}"/>
+</th:block>
+<th:block layout:fragment="content">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <th:block th:text="#{menu.province}"/>
+            <small th:text="#{menu.province.list}"/>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>
+                <th:block th:text="#{crumb.home}"/>
+            </a></li>
+            <li class="active" th:text="#{menu.province.list}"/>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="alert alert-success alert-dismissable" th:if="${successMsg != null}">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <i class="fa fa-check pr10"></i>
+            <strong>
+                <th:block th:text="#{global.notif.success}"/>
+            </strong>.&nbsp;
+            <th:block th:text="${successMsg}"/>
+        </div>
+
+        <div class="alert alert-danger alert-dismissable" th:if="${errorMsg != null}">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <i class="fa fa-remove pr10"></i>
+            <strong>
+                <th:block th:text="#{global.notif.error}"/>
+            </strong>.&nbsp;
+            <th:block th:text="${errorMsg}"/>
+        </div>
+
+        <div class="modal modal-danger fade" id="deleteConfirmationModal"
+             tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" th:text="#{global.dialog.delete.title}"/>
+                    </div>
+                    <div class="modal-body" th:text="#{global.dialog.delete.this.data}"/>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{global.button.cancel}"/>
+                        <a th:href="@{/province/delete?id=}" class="btn btn-danger" th:text="#{global.button.delete}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="box-header">
+                <div class="button_add">
+                    <a type="button" class="btn btn-info btn-gradient dark btn-block btn-rounded"
+                       th:href="@{/province/detail}">
+                        <span class="fa fa-plus"/>
+                        <th:block th:text="#{global.button.add}"/>
+                    </a>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table id="provinceTableId" dt:filterable="true" dt:table="true" dt:serverside="true"
+                           dt:processing="true" dt:url="@{/ajax/province/list}" dt:pipelining="true" dt:pipesize="6">
+                        <thead>
+                        <tr>
+                            <th dt:property="name" th:text="#{province.label.name}"/>
+                            <th dt:property="value" th:text="#{province.label.value}"/>
+                            <th dt:renderFunction="renderViewLink" th:text="#{global.table.action}" dt:searchable="false" dt:sortable="false"/>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section><!-- /.content -->
+</th:block>
+<th:block layout:fragment="js-addition">
+    <script th:src="@{/assets/plugins/datatables/jquery.dataTables.min.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function renderViewLink(data, type, full) {
+            return '<div class="table-action"><button class="btn btn-info btn-gradient dark"><a href="province/detail?id=' + full.id +'"><i class="fa fa-pencil-square-o" title="edit"></i></a></button>&nbsp;' +
+                    '<button class="btn btn-danger btn-gradient dark" data-toggle="modal" data-target="#deleteConfirmationModal" data-id="' + full.id + '"data-code="' + full.name + '"><i class="fa fa-trash-o" title="delete"></i></button></div>';
+        }
+
+        $('#deleteConfirmationModal').on(
+                'show.bs.modal',
+                function(event) {
+                    var button  = $(event.relatedTarget);
+                    var id      = button.data('id');
+                    var code    = button.data('code');
+                    var modal = $(this);
+                    var deleteUrl = modal.find('.modal-footer > a')
+                            .attr('href');
+//                    modal.find('.modal-body').append(' ' + "car plate " +  plate + ' ?');
+                    modal.find('.modal-footer > a').attr('href',
+                            deleteUrl + id);});
+        /*]]>*/
+    </script>
+</th:block>
+</body>
+</html>

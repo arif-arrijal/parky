@@ -39,45 +39,49 @@
         <form method="post" id="carForm" th:action="@{/car/detail}" th:object="${carForm}" enctype="multipart/form-data" role="form">
             <div class="box box-primary">
                     <div class="box-body">
-                        <input type="hidden" id="carId" th:field="*{id}"/>
-                        <div class="form-group">
-                            <div th:attr="class=${#fields.hasErrors('carPlate') ? 'form-group has-error' : 'form-group'}">
-                                <label for="carPlate" th:text="#{car.label.carplate}"/>
-                                <input type="text" class="form-control" id="carPlate" th:placeholder="#{car.label.carplate}" th:field="*{carPlate}"/>
-                                <span class="help-block"><th:block th:each="err : ${#fields.errors('carPlate')}" th:text="${err}"/></span>
+                        <div class="col-md-6">
+                            <input type="hidden" id="carId" th:field="*{id}"/>
+                            <div class="form-group">
+                                <div th:attr="class=${#fields.hasErrors('carPlate') ? 'form-group has-error' : 'form-group'}">
+                                    <label for="carPlate" th:text="#{car.label.carplate}"></label>
+                                    <input type="text" class="form-control" id="carPlate" th:placeholder="#{car.label.carplate}" th:field="*{carPlate}"/>
+                                    <span class="help-block"><th:block th:each="err : ${#fields.errors('carPlate')}" th:text="${err}"/></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div th:attr="class=${#fields.hasErrors('carPlate2') ? 'form-group has-error' : 'form-group'}">
-                                <label for="carPlate" th:text="#{car.label.carplate.confirm}"/>
-                                <input type="text" class="form-control" id="carPlate2" th:placeholder="#{car.label.carplate.confirm}" th:field="*{carPlate2}"/>
-                                <span class="help-block"><th:block th:each="err : ${#fields.errors('carPlate2')}" th:text="${err}"/></span>
+                            <div class="form-group">
+                                <div th:attr="class=${#fields.hasErrors('carPlate2') ? 'form-group has-error' : 'form-group'}">
+                                    <label for="carPlate" th:text="#{car.label.carplate.confirm}"/>
+                                    <input type="text" class="form-control" id="carPlate2" th:placeholder="#{car.label.carplate.confirm}" th:field="*{carPlate2}"/>
+                                    <span class="help-block"><th:block th:each="err : ${#fields.errors('carPlate2')}" th:text="${err}"/></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div th:attr="class=${#fields.hasErrors('carName') ? 'form-group has-error' : 'form-group'}">
-                                <label for="carPlate" th:text="#{car.label.carname}"/>
-                                <input type="text" class="form-control" id="carName" th:placeholder="#{car.label.carname}" th:field="*{carName}"/>
-                                <span class="help-block"><th:block th:each="err : ${#fields.errors('carName')}" th:text="${err}"/></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div>
-                                <div class="col-lg-10">
-                                    <img id="fotoPreview"  class="photo-image-size"/>
+                            <div class="form-group">
+                                <div th:attr="class=${#fields.hasErrors('carName') ? 'form-group has-error' : 'form-group'}">
+                                    <label for="carPlate" th:text="#{car.label.carname}"/>
+                                    <input type="text" class="form-control" id="carName" th:placeholder="#{car.label.carname}" th:field="*{carName}"/>
+                                    <span class="help-block"><th:block th:each="err : ${#fields.errors('carName')}" th:text="${err}"/></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div th:attr="class=${#fields.hasErrors('carPict') ? 'form-group has-error' : 'form-group'}">
-                                <input type="file" id="fotoBrowser" th:field="*{carPict}" accept="image/*"/>
-                                <span class="help-block"><th:block th:each="err : ${#fields.errors('carPict')}" th:text="${err}"/></span>
+                        <div class="col-md-6">
+                            <div class="form-group" th:if="*{id}">
+                                <div>
+                                    <label for="fotoPreview" th:text="#{car.label.carplate.picture}"/>
+                                    <img id="fotoPreview" th:src="@{/car/photo/(id=${carForm.id})}" class="img-responsive" width="300" height="150" align="middle"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div th:attr="class=${#fields.hasErrors('carPict') ? 'form-group has-error' : 'form-group'}">
+                                    <label for="fotoBrowser" th:text="#{car.label.choose.file}"/>
+                                    <input type="file" id="fotoBrowser" th:field="*{carPict}" accept="image/*"/>
+                                    <span class="help-block"><th:block th:each="err : ${#fields.errors('carPict')}" th:text="${err}"/></span>
+                                </div>
                             </div>
                         </div>
                     </div><!-- /.box-body -->
 
                     <div class="box-footer">
-                        <a th:href="@{/car}" type="button" class="btn btn-danger" th:text="*{id == null} ? #{global.button.cancel} : #{global.button.back}"/>
+                        <a th:href="@{/car}" type="button" class="btn btn-danger" th:text="*{id == null} ? #{global.button.cancel} : #{global.button.back}"></a>
                         <button type="submit" class="btn btn-primary" th:text="*{id == null} ? #{global.button.submit} : #{global.button.update}"/>
                     </div>
             </div>

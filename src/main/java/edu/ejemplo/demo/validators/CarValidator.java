@@ -34,6 +34,12 @@ public class CarValidator {
                 String error = messageSource.getMessage("error.carname.already.registered", errorArgs, null);
                 throw new BusinessLogicException(error);
             }
+            extractUploadedCarBytes(carForm);
+            byte[] fotoInDb = carForm.getCarPictBytes();
+            if ((fotoInDb == null || fotoInDb.length == 0) && carForm.getCarPictBytes().length == 0) {
+                String errorMessage = messageSource.getMessage("error.empty.photo",null,null);
+                throw new BusinessLogicException(errorMessage);
+            }
         }
 
         if (carForm.getCarPlate().equals(carForm.getCarPlate2())){
@@ -41,14 +47,6 @@ public class CarValidator {
             String error = messageSource.getMessage("error.carplate.notmach.with.confirm", null, null);
             throw new BusinessLogicException(error);
         }
-
-        extractUploadedCarBytes(carForm);
-        byte[] fotoInDb = carForm.getCarPictBytes();
-        if ((fotoInDb == null || fotoInDb.length == 0) && carForm.getCarPictBytes().length == 0) {
-            String errorMessage = messageSource.getMessage("error.empty.photo",null,null);
-            throw new BusinessLogicException(errorMessage);
-        }
-
     }
 
     private void extractUploadedCarBytes(CarForm carForm) throws IOException {

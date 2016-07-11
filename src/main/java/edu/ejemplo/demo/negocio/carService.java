@@ -16,4 +16,5 @@ public interface CarService {
     Coche saveOrUpdate(CarForm carForm, HttpServletRequest request) throws IOException;
     DataSet<Coche> findWithDatatablesCriterias(DatatablesCriterias criterias);
     CarForm findCarById(Long id);
+    byte[] getCarPhoto(Long id);
 }
