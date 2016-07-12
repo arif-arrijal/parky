@@ -161,20 +161,22 @@
                 </div>
                 <div class="modal-body">
                         <div class="box-body">
-                            <input type="hidden" id="errorCheck" th:field="*{errorCheck}"/>
 
-                            <div  class="alert alert-success fade in" th:if="${successMsg != null}">
-                                <input type="hidden" id="successMsg" value="1" th:if="${successMsg != null}" />
+                            <input type="hidden" id="errorCheckSignUp" value="1" th:if="${flagSignUp != null}"/>
+                            <input type="hidden" id="successCheckSignUp" value="1" th:if="${flagSignUp != null}"/>
+
+                            <div  class="alert alert-success fade in" th:if="${successMsgSignUp != null}">
+                                <input type="hidden" id="successMsg" value="1" th:if="${successMsgSignUp != null}" />
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                 <i class="fa fa-check-circle fa-fw fa-lg"></i>
-                                <th:block th:if="${successMsg != null}" th:text="${successMsg}"/>
+                                <th:block th:if="${successMsgSignUp != null}" th:text="${successMsgSignUp}"/>
                             </div>
 
-                            <div class="alert alert-danger fade in" th:if="${errorMsg != null  or exc != null}">
-                                <input type="hidden" id="errorMsg" value="1" th:if="${errorMsg != null}" />
+                            <div class="alert alert-danger fade in" th:if="${errorMsgSignUp != null  or exc != null}">
+                                <input type="hidden" id="errorMsg" value="1" th:if="${errorMsgSignUp != null}" />
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                 <i class="fa fa-times-circle fa-fw fa-lg"></i>
-                                <th:block th:if="${errorMsg != null}" th:text="${errorMsg}"/>
+                                <th:block th:if="${errorMsgSignUp != null}" th:text="${errorMsgSignUp}"/>
                                 <th:block th:if="${exc != null}" th:text="${exc.message}"/>
                             </div>
 
@@ -190,7 +192,7 @@
                             <div th:class="${#fields.hasErrors('email')} ? 'form-group has-error' : 'form-group'">
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="text" th:field="*{email}" class="form-control" id="email" placeholder="Enter email" />
+                                    <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Enter email" />
                                     <span id="errorEmail" class="help-block"><i class="icon-remove-sign"></i>
                                       <th:block th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/>
                                     </span>
@@ -199,7 +201,7 @@
                             <div th:class="${#fields.hasErrors('email2')} ? 'form-group has-error' : 'form-group'">
                                 <div class="form-group">
                                     <label for="email2">Confirm Email</label>
-                                    <input type="text" th:field="*{email2}" class="form-control" id="email2" placeholder="Enter confirm email" />
+                                    <input type="email" th:field="*{email2}" class="form-control" id="email2" placeholder="Enter confirm email" />
                                     <span id="errorConfirmEmail" class="help-block"><i class="icon-remove-sign"></i>
                                       <th:block th:if="${#fields.hasErrors('email2')}" th:errors="*{email2}"/>
                                     </span>
@@ -221,7 +223,8 @@
                 </div>
                 <div class="modal-footer">
                         <div align="left">
-                            <a style="color: black">Already have account? sign in </a><a id="btn-sign-in" href="" data-dismiss="modal">here</a>
+                            <a style="color: black" th:text="#{global.dialog.already.have.account}"></a>
+                            <a id="btn-sign-in" href="" data-dismiss="modal" th:text="#{global.dialog.here}"></a>
                         </div>
                     <div>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -258,7 +261,7 @@
                             </div>
 
                             <div class="form-group has-feedback">
-                                <input type="text" name="username" class="form-control" th:placeholder="#{login.label.username}"/>
+                                <input type="email" name="username" class="form-control" th:placeholder="#{login.label.username}"/>
                                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                             </div>
                             <div class="form-group has-feedback">
@@ -271,13 +274,78 @@
                     <div class="modal-footer">
                         <div>
                             <div align="left">
-                                <a style="color: black">Not have account? sign up </a><a id="btn-sign-up2" href="" data-dismiss="modal">here</a>
+                                <div>
+                                    <a style="color: black" th:text="#{global.dialog.not.have.account}"></a>
+                                    <a id="btn-sign-up2" href="" data-dismiss="modal" th:text="#{global.dialog.here}"></a>
+                                </div>
+                                <div>
+                                    <a style="color: black" th:text="#{global.dialog.forget.password}"></a>
+                                    <a id="btn-forget-password" href="" data-dismiss="modal" th:text="#{global.dialog.here}"></a>
+                                </div>
+
                                 <!--<a style="color: black ; text-align: right" th:text="#{label.forgot.password}" ></a>-->
                             </div>
                         </div>
                         <div>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary" th:text="#{global.label.signin}" />
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </form>
+    </div><!-- /.modal -->
+
+    <!--Modal forget password in Section-->
+    <div class="modal fade" id="modal-forget-password">
+        <form method="post" th:form="forgetPasswordForm" th:action="@{/register/forget}" th:object="${forgetPasswordForm}" role="form">            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" style="color: black" th:text="#{global.label.forget.password}"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box-body">
+
+                            <input type="hidden" id="errorCheckForget" value="1" th:if="${flagForget != null}"/>
+                            <input type="hidden" id="successCheckForget" value="1" th:if="${flagForget != null}"/>
+
+                            <div class="alert alert-danger fade in"  th:if="${errorMsgForget != null}">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <i class="fa fa-times-circle fa-fw fa-lg"></i>
+                                <th:block th:if="${errorMsgForget != null}" th:text="${errorMsgForget}"/>
+                            </div>
+                            <div class="alert alert-success alert-dismissable" th:if="${successMsgForget != null}">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <i class="fa fa-remove pr10"></i>
+                                <th:block th:text="${successMsgForget}"/>
+                            </div>
+
+                            <div th:class="${#fields.hasErrors('forgetPassword')} ? 'form-group has-error' : 'form-group'">
+                                <div class="form-group">
+                                    <label for="forgetPassword" th:text="#{global.label.forget.password}"></label>
+                                    <input type="email" th:field="*{forgetPassword}" class="form-control" id="forgetPassword" th:placeholder="#{user.label.email}" />
+                                    <span id="errorForgetPassword" class="help-block"><i class="icon-remove-sign"></i>
+                                      <th:block th:if="${#fields.hasErrors('forgetPassword')}" th:errors="*{forgetPassword}"/>
+                                    </span>
+                                </div>
+                            </div>
+
+
+                        </div><!-- /.box-body -->
+                    </div>
+                    <div class="modal-footer">
+                        <div>
+                            <div align="left">
+                                <div>
+                                    <a style="color: black" th:text="#{global.remember.account}"></a>
+                                    <a id="btn-sign-in3" href="" data-dismiss="modal" th:text="#{global.dialog.here}"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" th:text="#{global.label.send.email}" />
                         </div>
                     </div>
                 </div><!-- /.modal-content -->
@@ -315,12 +383,20 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            if ($('#errorCheck').val() == 1 || $('#errorMsg').val() == 1 || $('#successMsg').val() == 1 ){
+            if ($('#errorCheckSignUp').val() == 1 || $('#successCheckSignUp').val() == 1){
                 $('#modal-sign-up').modal('show');
+            }
+
+            if ($('#errorCheckForget').val() == 1 || $('#successCheckForget').val() == 1){
+                $('#modal-forget-password').modal('show');
             }
 
             if ($('#errorCheckLogin').val() == 1){
                 $('#modal-sign-in').modal('show');
+            }
+
+            if ($('#errorCheckForgetPassword').val() == 1){
+                $('#modal-forget-password').modal('show');
             }
 
             $('#btn-sign-up').click(function(){
@@ -338,6 +414,16 @@
             $('#btn-sign-in2').click(function(){
                 $('#modal-sign-in').modal('show');
             });
+
+            $('#btn-sign-in3').click(function(){
+                $('#modal-sign-in').modal('show');
+            });
+
+            $('#btn-forget-password').click(function(){
+                $('#modal-forget-password').modal('show');
+            });
+
+
 
         });
     </script>

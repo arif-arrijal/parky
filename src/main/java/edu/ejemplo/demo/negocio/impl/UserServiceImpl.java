@@ -134,4 +134,41 @@ public class UserServiceImpl implements UserService {
         newUser.setEmailVerificado(true);
         return userRepository.save(newUser);
     }
+
+    @Override
+    public User forgetPassword(String email, HttpServletRequest request) {
+
+        if(userRepository.countByEmail(email.trim()) > 0){
+            //generate random password
+            String password = RandomStringUtils.randomAlphanumeric(8);
+            String hashPassword = passwordEncoder.encode(password);
+            User user = userRepository.findOneByEmail(email);
+            user.setPassword(hashPassword);
+            User user2 = userRepository.save(user);
+
+            // send email
+            String baseUrl = ServletUriComponentsBuilder.fromContextPath(request).build().toString();
+            Context context = new Context();
+            context.setVariable("email", email);
+            context.setVariable("password", password);
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            String htmlContent = templateEngine.process("email/forget", context);
+            try {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+                message.setSubject(messageSource.getMessage("label.mail.title.forget.password", null, null));
+                message.setFrom(emailSender);
+                message.setTo(user.getEmail());
+                message.setText(htmlContent, true);
+                mailSender.send(mimeMessage);
+                LOGGER.info("successfully send forget email to " + email);
+            } catch (MessagingException e) {
+                LOGGER.error(e.getMessage(), e.getCause());
+            }
+            return user2;
+        }else{
+            Object[] errorArgs = {email};
+            String error = messageSource.getMessage("error.forget.email.not.found", errorArgs, null);
+            throw new BusinessLogicException(error);
+        }
+    }
 }

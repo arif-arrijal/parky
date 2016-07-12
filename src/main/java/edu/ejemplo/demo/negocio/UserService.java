@@ -12,4 +12,5 @@ public interface UserService {
 
     User saveOrUpdate(User entity, HttpServletRequest request, UserForm userForm, String gRecaptchaResponse);
     User resetPassword(User user);
+    User forgetPassword(String email, HttpServletRequest request);
 }

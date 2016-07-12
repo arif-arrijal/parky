@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Forget Password to Account</title>
+</head>
+<body>
+<p th:text="#{label.mail.hello}"></p>
+<p th:text="#{label.mail.successfully.forget.password}"></p>
+<p>
+    <th:block th:text="#{label.mail.verify.header}"/><br/>
+    E-mail: <th:block th:text="${email}"/><br/>
+    Password: <th:block th:text="${password}"/><br/>
+    <br/>
+</p>
+</body>
+</html>

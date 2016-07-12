@@ -2,6 +2,7 @@ package edu.ejemplo.demo.presentacion;
 
 import edu.ejemplo.demo.model.User;
 import edu.ejemplo.demo.negocio.UserService;
+import edu.ejemplo.demo.presentacion.forms.ForgetPasswordForm;
 import edu.ejemplo.demo.presentacion.forms.UserForm;
 import edu.ejemplo.demo.validators.PasswordValidator;
 import org.slf4j.Logger;
@@ -12,8 +13,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -38,10 +37,10 @@ public class RegisterController {
     @Autowired
     private MessageSource messageSource;
 
-    @InitBinder
-    private void initBinder(WebDataBinder binder){
-        binder.addValidators(passwordValidator);
-    }
+//    @InitBinder
+//    private void initBinder(WebDataBinder binder){
+//        binder.addValidators(passwordValidator);
+//    }
 
     @RequestMapping(method = RequestMethod.GET)
     public String customerVerifyEmail(Model model){
@@ -56,8 +55,10 @@ public class RegisterController {
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 
         if(bindingResult.hasErrors()){
-            userForm.setErrorCheck(1);
+            ForgetPasswordForm forgetPasswordForm = new ForgetPasswordForm();
+            model.addAttribute("flagSignUp", 1);
             model.addAttribute("userForm", userForm);
+            model.addAttribute("forgetPasswordForm", forgetPasswordForm);
             return "login";
         }
         try{
@@ -71,13 +72,45 @@ public class RegisterController {
             }else{
                 successMsg = messageSource.getMessage("global.notif.success.edit", new Object[]{user.getNombre()}, locale);
             }
-            redirectAttributes.addFlashAttribute("successMsg", successMsg);
-            redirectAttributes.addFlashAttribute("errorCheck", 0);
+            redirectAttributes.addFlashAttribute("successMsgSignUp", successMsg);
+            redirectAttributes.addFlashAttribute("flagSignUp", 1);
             return "redirect:/login";
         }catch (Exception e){
             LOGGER.error(e.getMessage(), e.getCause());
-            model.addAttribute("errorMsg", e.getMessage());
-            model.addAttribute("errorCheck", 1);
+            model.addAttribute("errorMsgSignUp", e.getMessage());
+            model.addAttribute("flagSignUp", 1);
+            return "login";
+        }
+    }
+
+    @RequestMapping(path = "/forget", method = RequestMethod.GET)
+    public String customerForgetPassword(Model model){
+        model.addAttribute("forgetPasswordForm", new ForgetPasswordForm());
+        return "register/forget";
+    }
+
+    @RequestMapping(path = "/forget", method = RequestMethod.POST)
+    public String forgetPassword(Model model, @Valid ForgetPasswordForm forgetPasswordForm, BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes, HttpServletRequest request){
+        if(bindingResult.hasErrors()){
+            UserForm userForm = new UserForm();
+            model.addAttribute("flagForget", 1);
+            model.addAttribute("userForm", userForm);
+            model.addAttribute("forgetPasswordForm", forgetPasswordForm);
+            return "login";
+        }
+        try{
+            User user = userService.forgetPassword(forgetPasswordForm.getForgetPassword(), request);
+            Object[] args = {user.getEmail()};
+            redirectAttributes.addFlashAttribute("successMsgForget", messageSource.getMessage("success.sent.forget.email", args, null));
+            redirectAttributes.addFlashAttribute("flagForget", 1);
+            return "redirect:/login";
+        }catch (Exception e){
+            UserForm userForm = new UserForm();
+            LOGGER.error(e.getMessage(), e.getCause());
+            model.addAttribute("errorMsgForget", e.getMessage());
+            model.addAttribute("flagForget", 1);
+            model.addAttribute("userForm", userForm);
             return "login";
         }
     }
