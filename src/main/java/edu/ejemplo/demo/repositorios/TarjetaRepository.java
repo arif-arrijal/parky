@@ -1,10 +1,15 @@
 package edu.ejemplo.demo.repositorios;
 
+import edu.ejemplo.demo.model.TarjetaCredito;
 import org.springframework.data.repository.CrudRepository;
 
-import edu.ejemplo.demo.model.TarjetaCredito;
-import edu.ejemplo.demo.model.User;
+import java.util.List;
 
 public interface TarjetaRepository extends CrudRepository<TarjetaCredito, Long> {
+
+    TarjetaCredito findById(Long id);
+    Long countByNombreTitular(String holderName);
+    Long countByNumeroTarjeta(String creditCardNumber);
+    List<TarjetaCredito>  findAll();
 	
 }

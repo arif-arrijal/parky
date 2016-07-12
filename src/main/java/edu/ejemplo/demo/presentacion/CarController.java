@@ -2,7 +2,9 @@ package edu.ejemplo.demo.presentacion;
 
 import edu.ejemplo.demo.model.Coche;
 import edu.ejemplo.demo.negocio.CarService;
+import edu.ejemplo.demo.negocio.CardService;
 import edu.ejemplo.demo.presentacion.forms.CarForm;
+import edu.ejemplo.demo.presentacion.forms.CardForm;
 import edu.ejemplo.demo.repositorios.CarRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,15 +13,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -32,13 +31,19 @@ public class CarController {
     private Logger log = LoggerFactory.getLogger(CarController.class);
 
     @Autowired
-    private Validator validator;
-    @Autowired
     private CarService carService;
     @Autowired
     private MessageSource messageSource;
     @Autowired
     private CarRepository carRepository;
+    @Autowired
+    private CardService cardService;
+
+    @ModelAttribute("creditCardList")
+    public List<CardForm> getAllTipeAnggotaOptions() {
+        List<CardForm> creditCardList = cardService.findAll();
+        return creditCardList;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public String index(){
@@ -86,10 +91,8 @@ public class CarController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String delete(@RequestParam(value = "id") Long id, RedirectAttributes redirectAttributes, Locale locale) {
-        Coche coche = carRepository.findById(id);
-        String carplate = coche.getMatricula();
-        carRepository.delete(coche);
-        Object[] args = {carplate};
+        String carPlate = carService.deleteCar(id);
+        Object[] args = {carPlate};
         redirectAttributes.addFlashAttribute("successMsg", messageSource.getMessage("car.notif.delete", args, locale));
         return  "redirect:/car";
     }

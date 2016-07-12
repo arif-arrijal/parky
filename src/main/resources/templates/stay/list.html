@@ -13,14 +13,14 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            <th:block th:text="#{menu.province}"/>
-            <small th:text="#{menu.province.list}"/>
+            <th:block th:text="#{menu.my.stays}"/>
+            <small th:text="#{menu.my.stays.list}"/>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i>
                 <th:block th:text="#{crumb.home}"/>
             </a></li>
-            <li class="active" th:text="#{menu.province.list}"/>
+            <li class="active" th:text="#{menu.my.stays.list}"/>
         </ol>
     </section>
 
@@ -59,7 +59,7 @@
                     <div class="modal-body" th:text="#{global.dialog.delete.this.data}"/>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{global.button.cancel}"/>
-                        <a th:href="@{/province/delete?id=}" class="btn btn-danger" th:text="#{global.button.delete}"/>
+                        <a th:href="@{/stay/delete?id=}" class="btn btn-danger" th:text="#{global.button.delete}"/>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
             <div class="box-header">
                 <div class="button_add">
                     <a type="button" class="btn btn-info btn-gradient dark btn-block btn-rounded"
-                       th:href="@{/province/detail}">
+                       th:href="@{/stay/detail}">
                         <span class="fa fa-plus"/>
                         <th:block th:text="#{global.button.add}"/>
                     </a>
@@ -77,11 +77,12 @@
             </div>
             <div class="box-body">
                 <div class="table-responsive">
-                    <table style="text-align:center" id="provinceTableId" dt:filterable="true" dt:table="true" dt:serverside="true"
-                           dt:processing="true" dt:url="@{/ajax/province/list}" dt:pipelining="true" dt:pipesize="6" dt:theme="bootstrap3">
+                    <table style="text-align:center" id="stayTableId" dt:filterable="true" dt:table="true" dt:serverside="true"
+                           dt:processing="true" dt:url="@{/ajax/stay/list}" dt:pipelining="true" dt:pipesize="6" dt:theme="bootstrap3">
                         <thead>
                         <tr>
-                            <th style="text-align:center" dt:property="name" th:text="#{province.label.name}"/>
+                            <th style="text-align:center" dt:property="name" th:text="#{stay.label.name}"/>
+                            <th style="text-align:center" dt:property="feePerMinutes" th:text="#{stay.label.fee.per.minutes}"/>
                             <th style="text-align:center" dt:renderFunction="renderViewLink" th:text="#{global.table.action}" dt:searchable="false" dt:sortable="false"/>
                         </tr>
                         </thead>
@@ -98,7 +99,7 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         function renderViewLink(data, type, full) {
-            return '<div class="table-action"><button class="btn btn-info btn-gradient dark"><a href="province/detail?id=' + full.id +'"><i class="fa fa-pencil-square-o" title="edit"></i></a></button>&nbsp;' +
+            return '<div class="table-action"><button class="btn btn-info btn-gradient dark"><a href="stay/detail?id=' + full.id +'"><i class="fa fa-pencil-square-o" title="edit"></i></a></button>&nbsp;' +
                     '<button class="btn btn-danger btn-gradient dark" data-toggle="modal" data-target="#deleteConfirmationModal" data-id="' + full.id + '"data-code="' + full.name + '"><i class="fa fa-trash-o" title="delete"></i></button></div>';
         }
 

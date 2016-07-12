@@ -16,6 +16,9 @@ public class EditCarConverter {
         carForm.setCarPlate(coche.getMatricula());
         carForm.setCarPlate2(coche.getMatricula());
         carForm.setCarName(coche.getNombreCoche());
+        if (coche.getTarjetaCredito() != null){
+            carForm.setCreditCardId(coche.getTarjetaCredito().getId());
+        }
 
         return carForm;
     }

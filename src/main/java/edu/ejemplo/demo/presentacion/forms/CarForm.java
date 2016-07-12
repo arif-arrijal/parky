@@ -13,10 +13,18 @@ public class CarForm {
     private String holderName;
     private String carPlate;
     private String carName;
-    private Integer creditCardId;
+    private Long creditCardId;
     private String carPlate2;
     private MultipartFile carPict;
     private byte[] carPictBytes;
+
+    public Long getCreditCardId() {
+        return creditCardId;
+    }
+
+    public void setCreditCardId(Long creditCardId) {
+        this.creditCardId = creditCardId;
+    }
 
     public Long getId() {
         return id;
@@ -84,13 +92,5 @@ public class CarForm {
 
     public void setCarPict(MultipartFile carPict) {
         this.carPict = carPict;
-    }
-
-    public Integer getCreditCardId() {
-        return creditCardId;
-    }
-
-    public void setCreditCardId(Integer creditCardId) {
-        this.creditCardId = creditCardId;
     }
 }

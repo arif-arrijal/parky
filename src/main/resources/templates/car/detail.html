@@ -77,12 +77,23 @@
                                     <span class="help-block"><th:block th:each="err : ${#fields.errors('carPict')}" th:text="${err}"/></span>
                                 </div>
                             </div>
+                            <div class="form-group" th:if="${not #lists.isEmpty(creditCardList)}">
+                                <div th:attr="class=${#fields.hasErrors('creditCardId') ? 'form-group has-error' : 'form-group'}">
+                                    <label for="creditCardId" th:text="#{car.label.creditcard}"/>
+                                    <select id="creditCardId" th:field="*{creditCardId}" class="form-control width-input-box">
+                                        <option th:each="s : ${creditCardList}" th:value="${s.id}" th:text="${s.creditCardNumber}"/>
+                                    </select>
+                                    <span class="help-block"><th:block th:each="err : ${#fields.errors('creditCardId')}" th:text="${err}"/></span>
+                                </div>
+                            </div>
                         </div>
                     </div><!-- /.box-body -->
 
                     <div class="box-footer">
-                        <a th:href="@{/car}" type="button" class="btn btn-danger" th:text="*{id == null} ? #{global.button.cancel} : #{global.button.back}"></a>
-                        <button type="submit" class="btn btn-primary" th:text="*{id == null} ? #{global.button.submit} : #{global.button.update}"/>
+                        <div class="form-group" align="right">
+                            <a th:href="@{/car}" type="button" class="btn btn-danger" th:text="*{id == null} ? #{global.button.cancel} : #{global.button.back}"></a>
+                            <button type="submit" class="btn btn-primary" th:text="*{id == null} ? #{global.button.submit} : #{global.button.update}"/>
+                        </div>
                     </div>
             </div>
         </form>

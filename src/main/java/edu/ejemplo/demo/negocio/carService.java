@@ -17,4 +17,6 @@ public interface CarService {
     DataSet<Coche> findWithDatatablesCriterias(DatatablesCriterias criterias);
     CarForm findCarById(Long id);
     byte[] getCarPhoto(Long id);
+    String deleteCar(Long id);
+
 }

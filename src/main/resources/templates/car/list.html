@@ -77,16 +77,18 @@
             </div>
             <div class="box-body">
                 <div class="table-responsive">
-                    <table id="carTableId" dt:filterable="true" dt:table="true" dt:serverside="true"
-                           dt:processing="true" dt:url="@{/ajax/car/list}" dt:pipelining="true" dt:pipesize="6">
+                    <table style="text-align:center" id="carTableId" dt:filterable="true" dt:table="true" dt:serverside="true"
+                           dt:processing="true" dt:url="@{/ajax/car/list}" dt:pipelining="true" dt:pipesize="6" dt:theme="bootstrap3">
                         <thead>
                         <tr>
-                            <th dt:property="matricula" th:text="#{car.label.carplate}"/>
-                            <th dt:property="nombreCoche" th:text="#{car.label.carname}"/>
-                            <th dt:property="activo" th:text="#{car.label.active}"/>
-                            <th dt:renderFunction="renderViewLink" th:text="#{global.table.action}" dt:searchable="false" dt:sortable="false"/>
+                            <th style="text-align:center" dt:property="matricula" th:text="#{car.label.carplate}"/>
+                            <th style="text-align:center" dt:property="nombreCoche" th:text="#{car.label.carname}"/>
+                            <th style="text-align:center" dt:property="activo" th:text="#{car.label.active}"/>
+                            <th style="text-align:center" dt:renderFunction="renderViewLink" th:text="#{global.table.action}" dt:searchable="false" dt:sortable="false"/>
                         </tr>
                         </thead>
+                        <tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>

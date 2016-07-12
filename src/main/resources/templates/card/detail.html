@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/main_layout">
+<head>
+    <style th:inline="text">
+        .ui-datepicker-calendar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <th:block th:text="#{menu.card}"/>
+            <small th:text="#{menu.detail.card}"/>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a th:href="@{/dashboard}"><i class="fa fa-dashboard"></i> <th:block th:text="#{crumb.home}"/></a></li>
+            <li><a th:href="@{/card}"><th:block th:text="#{menu.card}"/></a></li>
+            <li class="active" th:text="#{menu.detail.card}"/>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <div  class="alert alert-success fade in" th:if="${successMsg != null}">
+            <input type="hidden" id="successMsg" value="1" th:if="${successMsg != null}" />
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <i class="fa fa-check-circle fa-fw fa-lg"></i>
+            <th:block th:if="${successMsg != null}" th:text="${successMsg}"/>
+        </div>
+
+        <div class="alert alert-danger fade in" th:if="${errorMsg != null  or exc != null}">
+            <input type="hidden" id="errorMsg" value="1" th:if="${errorMsg != null}" />
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <i class="fa fa-times-circle fa-fw fa-lg"></i>
+            <th:block th:if="${errorMsg != null}" th:text="${errorMsg}"/>
+            <th:block th:if="${exc != null}" th:text="${exc.message}"/>
+        </div>
+
+        <form method="post" id="cardForm" th:action="@{/card/detail}" th:object="${cardForm}" enctype="multipart/form-data" role="form">
+            <div class="box box-primary">
+                    <div class="box-body">
+                        <div class="col-md-12">
+                            <input type="hidden" id="cardId" th:field="*{id}"/>
+                            <div class="form-group">
+                                <div th:attr="class=${#fields.hasErrors('nameHolder') ? 'form-group has-error' : 'form-group'}">
+                                    <label for="nameHolder" th:text="#{card.label.holdername}"></label>
+                                    <input type="text" class="form-control" id="nameHolder" th:placeholder="#{card.label.holdername}" th:field="*{nameHolder}"/>
+                                    <span class="help-block"><th:block th:each="err : ${#fields.errors('nameHolder')}" th:text="${err}"/></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div th:attr="class=${#fields.hasErrors('creditCardNumber') ? 'form-group has-error' : 'form-group'}">
+                                    <label for="creditCardNumber" th:text="#{card.label.cardnumber}"/>
+                                    <input type="text" class="form-control" id="creditCardNumber" th:placeholder="#{card.label.cardnumber}" th:field="*{creditCardNumber}"/>
+                                    <span class="help-block"><th:block th:each="err : ${#fields.errors('creditCardNumber')}" th:text="${err}"/></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div th:attr="class=${#fields.hasErrors('expirationDate') ? 'form-group has-error' : 'form-group'}">
+                                    <label for="expirationDate" th:text="#{card.label.expiration.date}"/>
+                                    <input type="text"  class="date-picker form-control" id="expirationDate" th:placeholder="#{card.label.expiration.date.placeholder}" th:field="*{expirationDate}"/>
+                                    <span class="help-block"><th:block th:each="err : ${#fields.errors('expirationDate')}" th:text="${err}"/></span>
+                                </div>
+                            </div>
+                    </div><!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <div class="form-group" align="right">
+                            <a th:href="@{/card}" type="button" class="btn btn-danger" th:text="*{id == null} ? #{global.button.cancel} : #{global.button.back}"></a>
+                            <button type="submit" class="btn btn-primary" th:text="*{id == null} ? #{global.button.submit} : #{global.button.update}"/>
+                        </div>
+                    </div>
+            </div>
+         </div>
+        </form>
+    </section><!-- /.content -->
+
+</th:block>
+<th:block layout:fragment="js-addition">
+
+    <script th:src="@{/assets/custom-datepicker.js}"></script>
+    <script th:src="@{/assets/plugins/datatables/jquery.dataTables.min.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(document).ready(function() {
+
+        });
+        /*]]>*/
+    </script>
+</th:block>
+</body>
+</html>

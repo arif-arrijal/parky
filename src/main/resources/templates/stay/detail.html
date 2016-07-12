@@ -8,13 +8,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            <th:block th:text="#{menu.province}"/>
-            <small th:text="#{menu.detail.province}"/>
+            <th:block th:text="#{menu.my.stays}"/>
+            <small th:text="#{menu.detail.stays}"/>
         </h1>
         <ol class="breadcrumb">
             <li><a th:href="@{/dashboard}"><i class="fa fa-dashboard"></i> <th:block th:text="#{crumb.home}"/></a></li>
-            <li><a th:href="@{/province}"><th:block th:text="#{menu.province}"/></a></li>
-            <li class="active" th:text="#{menu.detail.province}"/>
+            <li><a th:href="@{/stay}"><th:block th:text="#{menu.my.stays}"/></a></li>
+            <li class="active" th:text="#{menu.detail.stays}"/>
         </ol>
     </section>
 
@@ -36,29 +36,32 @@
             <th:block th:if="${exc != null}" th:text="${exc.message}"/>
         </div>
 
-        <form method="post" id="carForm" th:action="@{/province/detail}" th:object="${provinceForm}" enctype="multipart/form-data" role="form">
+        <form method="post" id="carForm" th:action="@{/stay/detail}" th:object="${stayForm}" role="form">
             <div class="box box-primary">
                     <div class="box-body">
                         <div class="col-md-12">
-                            <input type="hidden" id="provinceId" th:field="*{id}"/>
+                            <input type="hidden" id="stayId" th:field="*{id}"/>
                             <div class="form-group">
                                 <div th:attr="class=${#fields.hasErrors('name') ? 'form-group has-error' : 'form-group'}">
-                                    <label for="name" th:text="#{province.label.name}"></label>
-                                    <input type="text" class="form-control" id="name" th:placeholder="#{province.label.name}" th:field="*{name}"/>
+                                    <label for="name" th:text="#{stay.label.name}"></label>
+                                    <input type="text" class="form-control" id="name" th:placeholder="#{stay.label.name}" th:field="*{name}"/>
                                     <span class="help-block"><th:block th:each="err : ${#fields.errors('name')}" th:text="${err}"/></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div th:attr="class=${#fields.hasErrors('value') ? 'form-group has-error' : 'form-group'}">
-                                    <label for="value" th:text="#{province.label.value}"/>
-                                    <input type="text" class="form-control" id="value" th:placeholder="#{province.label.value}" th:field="*{value}"/>
-                                    <span class="help-block"><th:block th:each="err : ${#fields.errors('value')}" th:text="${err}"/></span>
+                                <div th:attr="class=${#fields.hasErrors('feePerMinutes') ? 'form-group has-error' : 'form-group'}">
+                                    <label for="feePerMinutes" th:text="#{stay.label.fee.per.minutes}"/>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">€</span>
+                                        <input type="text" class="form-control" id="feePerMinutes" th:placeholder="#{stay.label.fee.per.minutes}" th:field="*{feePerMinutes}"/>
+                                    </div>
+                                    <span class="help-block"><th:block th:each="err : ${#fields.errors('feePerMinutes')}" th:text="${err}"/></span>
                                 </div>
                             </div>
                     </div><!-- /.box-body -->
                     <div class="box-footer">
                         <div class="form-group" align="right">
-                            <a th:href="@{/province}" type="button" class="btn btn-danger" th:text="*{id == null} ? #{global.button.cancel} : #{global.button.back}"></a>
+                            <a th:href="@{/stay}" type="button" class="btn btn-danger" th:text="*{id == null} ? #{global.button.cancel} : #{global.button.back}"></a>
                             <button type="submit" class="btn btn-primary" th:text="*{id == null} ? #{global.button.submit} : #{global.button.update}"/>
                         </div>
                     </div>
@@ -72,6 +75,26 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         $(document).ready(function() {
+
+            $("#feePerMinutes").keydown(function (e) {
+                // Allow: backspace, delete, tab, escape, enter and .
+                if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                        // Allow: Ctrl+A
+                        (e.keyCode == 65 && e.ctrlKey === true) ||
+                        // Allow: Ctrl+C
+                        (e.keyCode == 67 && e.ctrlKey === true) ||
+                        // Allow: Ctrl+X
+                        (e.keyCode == 88 && e.ctrlKey === true) ||
+                        // Allow: home, end, left, right
+                        (e.keyCode >= 35 && e.keyCode <= 39)) {
+                    // let it happen, don't do anything
+                    return;
+                }
+                // Ensure that it is a number and stop the keypress
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
+                }
+            });
 
         });
         /*]]>*/

@@ -5,11 +5,13 @@ import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
 import edu.ejemplo.demo.converter.EditCarConverter;
 import edu.ejemplo.demo.excepciones.BusinessLogicException;
 import edu.ejemplo.demo.model.Coche;
+import edu.ejemplo.demo.model.TarjetaCredito;
 import edu.ejemplo.demo.model.User;
 import edu.ejemplo.demo.negocio.CarService;
 import edu.ejemplo.demo.presentacion.forms.CarForm;
 import edu.ejemplo.demo.repositorios.CarDataDao;
 import edu.ejemplo.demo.repositorios.CarRepository;
+import edu.ejemplo.demo.repositorios.TarjetaRepository;
 import edu.ejemplo.demo.repositorios.UserRepository;
 import edu.ejemplo.demo.validators.CarValidator;
 import org.apache.commons.io.FilenameUtils;
@@ -44,11 +46,14 @@ import java.util.List;
 public class CarServiceImpl implements CarService {
 
     private Logger log = LoggerFactory.getLogger(CarServiceImpl.class);
+    private String ROOT = "upload";
 
     @Autowired
     private CarRepository carRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TarjetaRepository cardRepository;
     @Autowired
     private CarValidator carValidator;
     @Autowired
@@ -61,9 +66,6 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Coche saveOrUpdate(CarForm form, HttpServletRequest request){
-
-        String ROOT = "upload";
-
         Coche coche = new Coche();
 
         try {
@@ -97,9 +99,14 @@ public class CarServiceImpl implements CarService {
                 coche.setMatriculaValidada(false);
                 coche.setConductor(user);
                 coche.setNombreCoche(form.getCarName());
+                //check car plate pic, if not empty, update car plate pic
                 if (!form.getCarPict().isEmpty()){
                     Files.deleteIfExists(Paths.get(ROOT, coche.getFotoPermiso()));
                     coche.setFotoPermiso(filename);
+                }
+                if (form.getCreditCardId() != null){
+                    TarjetaCredito card = cardRepository.findById(form.getCreditCardId());
+                    coche.setTarjetaCredito(card);
                 }
                 carRepository.save(coche);
             }else {
@@ -109,6 +116,10 @@ public class CarServiceImpl implements CarService {
                 coche.setConductor(user);
                 coche.setNombreCoche(form.getCarName());
                 coche.setFotoPermiso(filename);
+                if (form.getCreditCardId() != null){
+                    TarjetaCredito card = cardRepository.findById(form.getCreditCardId());
+                    coche.setTarjetaCredito(card);
+                }
                 carRepository.save(coche);
             }
 
@@ -154,5 +165,24 @@ public class CarServiceImpl implements CarService {
             }
         
         return file;
+    }
+
+    @Override
+    public String deleteCar(Long id) {
+        Coche car = carRepository.findById(id);
+        if (car.getFotoPermiso() != null){
+            try {
+                Files.deleteIfExists(Paths.get(ROOT, car.getFotoPermiso()));
+                log.info("delete car plate picture " + car.getFotoPermiso() + " in folder " + ROOT + " done");
+            } catch (IOException e) {
+                e.printStackTrace();
+                String exception = e.getMessage();
+                throw new BusinessLogicException(exception);
+            }
+        }
+        String carPlate = car.getMatricula();
+        carRepository.delete(car);
+        log.info("delete carPlate " + carPlate + " done");
+        return carPlate;
     }
 }
