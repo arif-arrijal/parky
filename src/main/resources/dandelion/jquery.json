@@ -1,0 +1,13 @@
+{
+  "bundle" : "jquery",
+  "assets": [
+    {
+      "name": "jquery",
+      "version": "2.1.4",
+      "type": "js",
+      "locations": {
+        "webapp": "/assets/plugins/jQuery/jQuery-2.1.4.min.js"
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "bundle" : "adminLTE",
+  "dependencies": [ "jquery" ],
+  "assets": [
+    {
+      "name": "jquery-ui",
+      "version": "1.11.4",
+      "type": "js",
+      "locations": {
+        "webapp": "/assets/plugins/jQueryUI/jQuery-ui.min.js"
+      }
+    },
+    {
+      "name": "bootstrap",
+      "version": "3.3.4",
+      "type": "js",
+      "locations": {
+        "webapp": "/assets/bootstrap/js/bootstrap.min.js"
+      }
+    },
+    {
+      "name": "jquery-slimscroll",
+      "version": "1.3.3",
+      "type": "js",
+      "locations": {
+        "webapp": "/assets/plugins/slimScroll/jquery.slimscroll.min.js"
+      }
+    },
+    {
+      "name": "app",
+      "version": "1.0",
+      "type": "js",
+      "locations": {
+        "webapp": "/assets/dist/js/app.js"
+      }
+    }
+  ]
+}
