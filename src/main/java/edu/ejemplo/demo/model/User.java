@@ -23,6 +23,16 @@ public class User implements Serializable{
 	private String emailCode; //the code to be sent to the user to validate the address
 	private Boolean emailVerificado; //will be false until email is verified from the activation code /link
     private Integer version;
+    private Boolean active;
+
+    @Column(name = "active")
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -45,7 +55,7 @@ public class User implements Serializable{
         this.nombre = nombre;
     }
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email", nullable = false)
     public String getEmail() {
         return email;
     }

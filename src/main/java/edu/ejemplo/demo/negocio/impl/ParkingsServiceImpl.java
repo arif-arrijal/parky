@@ -2,9 +2,13 @@ package edu.ejemplo.demo.negocio.impl;
 
 import com.github.dandelion.datatables.core.ajax.DataSet;
 import com.github.dandelion.datatables.core.ajax.DatatablesCriterias;
+import edu.ejemplo.demo.model.Parking;
 import edu.ejemplo.demo.model.Role;
+import edu.ejemplo.demo.negocio.ParkingsService;
 import edu.ejemplo.demo.repositorios.ParkingDataDao;
+import edu.ejemplo.demo.repositorios.ParkingRepository;
 import edu.ejemplo.demo.repositorios.RoleRepository;
+import edu.ejemplo.demo.repositorios.UserRepository;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,17 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import edu.ejemplo.demo.excepciones.YaExisteException;
-import edu.ejemplo.demo.model.Parking;
-import edu.ejemplo.demo.model.User;
-import edu.ejemplo.demo.negocio.ParkingsService;
-import edu.ejemplo.demo.repositorios.ParkingRepository;
-import edu.ejemplo.demo.repositorios.UserRepository;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,11 +63,6 @@ public class ParkingsServiceImpl implements ParkingsService {
 		Long count  = parkingDataDao.getTotalCount();
 		Long countFiltered = parkingDataDao.getFilteredCount(criterias);
 		return new DataSet<>(parkingList, count, countFiltered);
-	}
-
-	@Override
-	public Iterable<Parking> getParkings() {
-		return parkingsRepository.findAll();
 	}
 
     @Override
@@ -123,17 +113,5 @@ public class ParkingsServiceImpl implements ParkingsService {
 
         return parking;
     }
-
-
-    public void registrar(User user, Parking parking) throws YaExisteException {
-		
-		if (userRepository.getUserByEmail(user.getEmail()) != null) {
-			throw new YaExisteException();
-		}
-		
-		userRepository.save(user);
-//		parking.setUsuario(user);
-		parkingsRepository.save(parking);		
-	}
 
 }

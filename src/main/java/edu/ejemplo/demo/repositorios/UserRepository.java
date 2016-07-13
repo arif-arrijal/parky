@@ -8,12 +8,12 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 	User findOneByEmail(String email);
-	User getUserByEmail(String email);
-	User getUserByEmailCode(String code);
+	User findOneByEmailAndActive(String email, Boolean active);
 	User findOneByEmailAndEmailCode(String email, String code);
 	User findById(Long id);
 
 	Long countByEmail(String email);
+	Long countByEmailAndActive(String email, Boolean active);
 	Long countByNombre(String nombre);
 	@Modifying
 	@Query("UPDATE User u SET u.emailVerificado = true WHERE u.email = :email")

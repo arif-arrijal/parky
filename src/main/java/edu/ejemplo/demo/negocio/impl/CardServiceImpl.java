@@ -64,7 +64,7 @@ public class CardServiceImpl implements CardService {
             cardValidator.validateCard(form);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String name = authentication.getName();
-            User user = userRepository.findOneByEmail(name);
+            User user = userRepository.findOneByEmailAndActive(name, true);
             Date expirationDate = dateFormat.parse(form.getExpirationDate());
             List<Coche> carList = carRepository.findByConductor(user);
 

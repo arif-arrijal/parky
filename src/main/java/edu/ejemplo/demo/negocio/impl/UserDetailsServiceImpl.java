@@ -34,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
             throw  new BusinessLogicException(error);
         }
 
-        User appUser = userRepository.findOneByEmail(username);
+        User appUser = userRepository.findOneByEmailAndActive(username, true);
         if(appUser == null){
             throw new UsernameNotFoundException("User not found");
         }

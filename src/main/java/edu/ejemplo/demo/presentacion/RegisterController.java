@@ -65,7 +65,7 @@ public class RegisterController {
 
             User user = new User();
             BeanUtils.copyProperties(userForm, user);
-            userService.saveOrUpdate(user, request, userForm, gRecaptchaResponse);
+            userService.save(user, request, userForm, gRecaptchaResponse);
             String successMsg;
             if(userForm.getId() == null){
                 successMsg = messageSource.getMessage("conductor.notif.create.success", new Object[]{user.getNombre()}, locale);
@@ -100,7 +100,7 @@ public class RegisterController {
             return "login";
         }
         try{
-            User user = userService.forgetPassword(forgetPasswordForm.getForgetPassword(), request);
+            User user = userService.forgetPassword(forgetPasswordForm.getForgetPassword());
             Object[] args = {user.getEmail()};
             redirectAttributes.addFlashAttribute("successMsgForget", messageSource.getMessage("success.sent.forget.email", args, null));
             redirectAttributes.addFlashAttribute("flagForget", 1);

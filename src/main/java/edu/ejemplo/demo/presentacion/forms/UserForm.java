@@ -18,6 +18,15 @@ public class UserForm implements Serializable{
     private String password2;
     private String emailCode;
     private Integer errorCheck;
+    private Boolean active;
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     public Integer getErrorCheck() {
         return errorCheck;
@@ -64,7 +73,7 @@ public class UserForm implements Serializable{
         this.email2 = email2;
     }
 
-    @NotEmpty
+//    @NotEmpty
     public String getPassword() {
         return password;
     }

@@ -55,7 +55,7 @@ public class ProvinceServiceImpl implements ProvinceService {
             provinceValidator.validateProvince(form);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String name = authentication.getName();
-            User user = userRepository.findOneByEmail(name);
+            User user = userRepository.findOneByEmailAndActive(name, true);
 
             //save data
             if (form.getId() != null){

@@ -191,9 +191,9 @@
                             </div>
                             <div th:class="${#fields.hasErrors('email')} ? 'form-group has-error' : 'form-group'">
                                 <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Enter email" />
-                                    <span id="errorEmail" class="help-block"><i class="icon-remove-sign"></i>
+                                    <label for="email" th:text="#{user.label.email}"></label>
+                                    <input type="email" th:field="*{email}" class="form-control" id="email" th:placeholder="#{user.label.email}" />
+                                    <span id="errorEmail" class="help-block"><i class="icon-removesign"></i>
                                       <th:block th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/>
                                     </span>
                                 </div>

@@ -1,6 +1,7 @@
 package edu.ejemplo.demo.validators;
 
 import edu.ejemplo.demo.excepciones.BusinessLogicException;
+import edu.ejemplo.demo.model.User;
 import edu.ejemplo.demo.presentacion.forms.UserForm;
 import edu.ejemplo.demo.repositorios.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,46 @@ public class SignupValidator {
 
     public void validateForSignUp(UserForm userForm){
 
-        //check nombre
-        if (userRepository.countByNombre(userForm.getNombre()) > 0){
-            Object[] errorArgs = {userForm.getNombre()};
-            String error = messageSource.getMessage("error.nombre.already.registered", errorArgs, null);
-            throw new BusinessLogicException(error);
+        if (userForm.getId() == null){
+            //check nombre
+            if (userRepository.countByNombre(userForm.getNombre()) > 0){
+                Object[] errorArgs = {userForm.getNombre()};
+                String error = messageSource.getMessage("error.nombre.already.registered", errorArgs, null);
+                throw new BusinessLogicException(error);
+            }
+            //check if email is already taken
+            if (userRepository.countByEmailAndActive(userForm.getEmail(),true) > 0){
+                Object[] errorArgs = {userForm.getEmail()};
+                String error = messageSource.getMessage("error.email.already.registered", errorArgs, null);
+                throw new BusinessLogicException(error);
+            }
+            //check if password not empty
+            if (userForm.getPassword().isEmpty() || userForm.getPassword() == null){
+                String error = messageSource.getMessage("error.password.may.not.empty", null, null);
+                throw new BusinessLogicException(error);
+            }
+        }else {
+            User existingUser = userRepository.findById(userForm.getId());
+
+            //check if email is already taken
+            if (existingUser.getEmail().equals(userForm.getEmail())){
+            }else {
+                if (userRepository.countByEmailAndActive(userForm.getEmail(),true) > 0){
+                    Object[] errorArgs = {userForm.getEmail()};
+                    String error = messageSource.getMessage("error.email.already.registered", errorArgs, null);
+                    throw new BusinessLogicException(error);
+                }
+            }
+
+            //check nombre
+            if (existingUser.getNombre().equals(userForm.getNombre())){
+            }else {
+                if (userRepository.countByNombre(userForm.getNombre()) > 0){
+                    Object[] errorArgs = {userForm.getNombre()};
+                    String error = messageSource.getMessage("error.nombre.already.registered", errorArgs, null);
+                    throw new BusinessLogicException(error);
+                }
+            }
         }
 
         //check if email not match with confirm email
@@ -32,14 +68,6 @@ public class SignupValidator {
             String error = messageSource.getMessage("error.email.notmatch.with.confirm", null, null);
             throw new BusinessLogicException(error);
         }
-
-        //check if email is already taken
-        if (userRepository.countByEmail(userForm.getEmail()) > 0){
-            Object[] errorArgs = {userForm.getEmail()};
-            String error = messageSource.getMessage("error.email.already.registered", errorArgs, null);
-            throw new BusinessLogicException(error);
-        }
-
 
     }
 }

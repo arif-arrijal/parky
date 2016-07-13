@@ -73,7 +73,7 @@ public class CarServiceImpl implements CarService {
             carValidator.validateCar(form);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String name = authentication.getName();
-            User user = userRepository.findOneByEmail(name);
+            User user = userRepository.findOneByEmailAndActive(name, true);
 
             String filename = "";
 
